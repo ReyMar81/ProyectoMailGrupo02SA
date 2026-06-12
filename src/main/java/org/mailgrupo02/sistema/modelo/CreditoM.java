@@ -29,23 +29,29 @@ public class CreditoM {
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
 
-    public static String crear(CreditoM credito) throws SQLException {
+    public static int crear(CreditoM credito) throws SQLException {
         String sql = "INSERT INTO credito (venta_id, numero_cuotas, tasa_interes, saldo_pendiente, estado) VALUES (?, ?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement pstmt = null;
+        ResultSet rs = null;
         try {
             conn = Conexion.conectar();
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, credito.ventaId);
             pstmt.setInt(2, credito.numeroCuotas);
             pstmt.setDouble(3, credito.tasaInteres);
             pstmt.setDouble(4, credito.saldoPendiente);
             pstmt.setString(5, credito.estado);
-            int rows = pstmt.executeUpdate();
-            return rows > 0 ? "Crédito creado con éxito" : "Error al crear crédito";
+            pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            throw new SQLException("No se pudo obtener el ID del crédito creado");
         } catch (SQLException e) {
             throw new SQLException("Error al crear crédito: " + e.getMessage());
         } finally {
+            if (rs != null) try { rs.close(); } catch (SQLException e) {}
             if (pstmt != null) try { pstmt.close(); } catch (SQLException e) {}
             if (conn != null) try { conn.close(); } catch (SQLException e) {}
         }

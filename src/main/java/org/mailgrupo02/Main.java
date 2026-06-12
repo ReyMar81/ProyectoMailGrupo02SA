@@ -126,15 +126,20 @@ public class Main {
                 String subj = extraer(correo, "Subject: ", 9);
                 System.out.println("  De: " + from + " | " + subj);
                 String resp = cmd.evaluarYEjecutar(subj);
-                // TODO: Descomentar cuando se tenga permiso SMTP
-                // smtp.enviarCorreo(from, "Re: " + subj, resp);
-                // System.out.println("  Enviado (" + resp.length() + " chars)");
-                System.out.println("  ===== RESPUESTA PARA: " + from + " =====");
-                System.out.println(resp);
-                System.out.println("  ==========================================");
+                smtp.enviarCorreo(extraerEmail(from), "Re: " + subj, resp);
+                System.out.println("  Enviado (" + resp.length() + " chars)");
             } catch (Exception e) {
                 System.err.println("  Error: " + e.getMessage());
             }
+        }
+
+        private String extraerEmail(String from) {
+            int ini = from.lastIndexOf('<');
+            int fin = from.lastIndexOf('>');
+            if (ini != -1 && fin != -1 && fin > ini) {
+                return from.substring(ini + 1, fin);
+            }
+            return from;
         }
 
         private String extraer(String txt, String key, int offset) {

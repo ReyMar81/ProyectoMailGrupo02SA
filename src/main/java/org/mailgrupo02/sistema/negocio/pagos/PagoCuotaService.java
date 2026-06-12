@@ -10,13 +10,16 @@ import java.util.List;
 public class PagoCuotaService {
 
     public String registrarPago(int creditoId, int numeroCuota, double montoCuota) throws SQLException {
-        PagoCuotaM pago = new PagoCuotaM();
-        pago.setCreditoId(creditoId);
-        pago.setNumeroCuota(numeroCuota);
-        pago.setMontoCuota(montoCuota);
-        pago.setFechaPago(new Date(System.currentTimeMillis()));
-        pago.setEstado("PAGADO");
-        return pago.crear();
+        PagoCuotaM existente = new PagoCuotaM().obtenerPorCreditoYNumero(creditoId, numeroCuota);
+        if (existente == null) {
+            return "Error: No se encontró la cuota " + numeroCuota + " del crédito " + creditoId;
+        }
+        if (!"PENDIENTE".equals(existente.getEstado())) {
+            return "La cuota " + numeroCuota + " ya está " + existente.getEstado();
+        }
+        existente.setFechaPago(new Date(System.currentTimeMillis()));
+        existente.setEstado("PAGADO");
+        return existente.actualizar();
     }
 
     public String verCuotas(int creditoId) throws SQLException {

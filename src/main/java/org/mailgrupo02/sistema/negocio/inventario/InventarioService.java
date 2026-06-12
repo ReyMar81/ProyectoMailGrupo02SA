@@ -2,6 +2,7 @@ package org.mailgrupo02.sistema.negocio.inventario;
 
 import org.mailgrupo02.sistema.conexion.Conexion;
 import org.mailgrupo02.sistema.modelo.InventarioM;
+import org.mailgrupo02.sistema.modelo.MovimientoInventarioM;
 import org.mailgrupo02.sistema.modelo.ProductoM;
 
 import java.sql.Connection;
@@ -83,44 +84,39 @@ public class InventarioService {
                 pstmt.setInt(3, inventarioId);
                 pstmt.executeUpdate();
 
-                pstmt = conn.prepareStatement(
-                        "INSERT INTO movimiento_inventario (inventario_id, tipo_movimiento, cantidad, motivo, fecha) VALUES (?, ?, ?, ?, ?)");
-                pstmt.setInt(1, inventarioId);
-                pstmt.setString(2, "INGRESO");
-                pstmt.setInt(3, cantidad);
-                pstmt.setString(4, motivo);
-                pstmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-                pstmt.executeUpdate();
+                MovimientoInventarioM mov = new MovimientoInventarioM();
+                mov.setInventarioId(inventarioId);
+                mov.setTipoMovimiento("INGRESO");
+                mov.setCantidad(cantidad);
+                mov.setMotivo(motivo);
+                mov.setFecha(new Timestamp(System.currentTimeMillis()));
+                mov.crear();
 
                 return "Ingreso registrado exitosamente";
             } else {
                 rs.close();
 
-                pstmt = conn.prepareStatement(
-                        "INSERT INTO inventario (producto_id, stock_actual, tecnica_inventario, tecnica_costo, fecha_actualizacion) VALUES (?, ?, ?, ?, ?)");
+                String insertSql = "INSERT INTO inventario (producto_id, stock_actual, tecnica_inventario, tecnica_costo, fecha_actualizacion) VALUES (?, ?, ?, ?, ?)";
+                pstmt = conn.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
                 pstmt.setInt(1, productoId);
                 pstmt.setInt(2, cantidad);
                 pstmt.setString(3, "PERMANENTE");
                 pstmt.setString(4, "PROMEDIO");
                 pstmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
                 pstmt.executeUpdate();
-
-                String idSql = "SELECT currval(pg_get_serial_sequence('inventario','id'))";
-                pstmt = conn.prepareStatement(idSql);
-                rs = pstmt.executeQuery();
+                rs = pstmt.getGeneratedKeys();
                 int inventarioId = 0;
                 if (rs.next())
                     inventarioId = rs.getInt(1);
                 rs.close();
 
-                pstmt = conn.prepareStatement(
-                        "INSERT INTO movimiento_inventario (inventario_id, tipo_movimiento, cantidad, motivo, fecha) VALUES (?, ?, ?, ?, ?)");
-                pstmt.setInt(1, inventarioId);
-                pstmt.setString(2, "INGRESO");
-                pstmt.setInt(3, cantidad);
-                pstmt.setString(4, motivo);
-                pstmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-                pstmt.executeUpdate();
+                MovimientoInventarioM mov = new MovimientoInventarioM();
+                mov.setInventarioId(inventarioId);
+                mov.setTipoMovimiento("INGRESO");
+                mov.setCantidad(cantidad);
+                mov.setMotivo(motivo);
+                mov.setFecha(new Timestamp(System.currentTimeMillis()));
+                mov.crear();
 
                 return "Inventario creado e ingreso registrado exitosamente";
             }
@@ -170,14 +166,13 @@ public class InventarioService {
                 pstmt.setInt(3, inventarioId);
                 pstmt.executeUpdate();
 
-                pstmt = conn.prepareStatement(
-                        "INSERT INTO movimiento_inventario (inventario_id, tipo_movimiento, cantidad, motivo, fecha) VALUES (?, ?, ?, ?, ?)");
-                pstmt.setInt(1, inventarioId);
-                pstmt.setString(2, "EGRESO");
-                pstmt.setInt(3, cantidad);
-                pstmt.setString(4, motivo);
-                pstmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-                pstmt.executeUpdate();
+                MovimientoInventarioM mov = new MovimientoInventarioM();
+                mov.setInventarioId(inventarioId);
+                mov.setTipoMovimiento("EGRESO");
+                mov.setCantidad(cantidad);
+                mov.setMotivo(motivo);
+                mov.setFecha(new Timestamp(System.currentTimeMillis()));
+                mov.crear();
 
                 return "Egreso registrado exitosamente";
             } else {

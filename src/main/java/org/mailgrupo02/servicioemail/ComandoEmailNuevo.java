@@ -9,7 +9,6 @@ import org.mailgrupo02.sistema.negocio.pedidos.PedidoService;
 import org.mailgrupo02.sistema.negocio.inventario.InventarioService;
 import org.mailgrupo02.sistema.negocio.pagos.PagoCuotaService;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;

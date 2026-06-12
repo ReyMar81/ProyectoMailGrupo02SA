@@ -48,8 +48,8 @@ public class ClienteSMTP {
             System.out.println("S : " + entrada.readLine());
 
             enviarComando(salida, entrada, "HELO " + SERVIDOR + "\r\n");
-            enviarComando(salida, entrada, "MAIL FROM: " + EMISOR + " \r\n");
-            enviarComando(salida, entrada, "RCPT TO: " + usuarioReceptor + " \r\n");
+            enviarComando(salida, entrada, "MAIL FROM:<" + EMISOR + ">\r\n");
+            enviarComando(salida, entrada, "RCPT TO:<" + usuarioReceptor + ">\r\n");
             enviarComando(salida, entrada, "DATA\r\n");
             enviarComando(salida, entrada, "Subject: " + subject + "\r\n" + mensaje + "\r\n.\r\n");
             enviarComando(salida, entrada, "QUIT\r\n");

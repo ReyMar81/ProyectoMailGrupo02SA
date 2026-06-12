@@ -4,6 +4,8 @@ import org.mailgrupo02.sistema.modelo.*;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 public class VentaService {
@@ -51,11 +53,29 @@ public class VentaService {
         credito.setNumeroCuotas(numeroCuotas);
         credito.setTasaInteres(tasaInteres);
         credito.setSaldoPendiente(montoTotal);
-        credito.setEstado("ACTIVO");
+        credito.setEstado("VIGENTE");
 
-        String resultadoCredito = CreditoM.crear(credito);
+        int creditoId = CreditoM.crear(credito);
 
-        return "Venta a crédito creada con éxito (ID: " + ventaId + "). " + resultadoCredito;
+        double montoCuota = (montoTotal * (1 + tasaInteres / 100)) / numeroCuotas;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fecha);
+
+        for (int i = 1; i <= numeroCuotas; i++) {
+            PagoCuotaM pago = new PagoCuotaM();
+            pago.setCreditoId(creditoId);
+            pago.setNumeroCuota(i);
+            pago.setMontoCuota(montoCuota);
+            cal.add(Calendar.MONTH, 1);
+            pago.setFechaVencimiento(new Date(cal.getTimeInMillis()));
+            pago.setFechaPago(null);
+            pago.setMora(0);
+            pago.setEstado("PENDIENTE");
+            pago.crear();
+        }
+
+        return "Venta a crédito creada con éxito (ID: " + ventaId + "), Crédito ID: " + creditoId
+                + " con " + numeroCuotas + " cuotas generadas.";
     }
 
     public String actualizarVenta(int id, int clienteId, Timestamp fecha, double montoTotal,

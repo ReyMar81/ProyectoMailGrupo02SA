@@ -147,6 +147,31 @@ public class PagoCuotaM {
         return lista;
     }
 
+    public PagoCuotaM obtenerPorCreditoYNumero(int creditoId, int numeroCuota) throws SQLException {
+        String sql = "SELECT * FROM pago_cuota WHERE credito_id = ? AND numero_cuota = ?";
+        try (Connection conn = Conexion.conectar();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, creditoId);
+            pstmt.setInt(2, numeroCuota);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                PagoCuotaM obj = new PagoCuotaM();
+                obj.setId(rs.getInt("id"));
+                obj.setCreditoId(rs.getInt("credito_id"));
+                obj.setNumeroCuota(rs.getInt("numero_cuota"));
+                obj.setMontoCuota(rs.getDouble("monto_cuota"));
+                obj.setFechaVencimiento(rs.getDate("fecha_vencimiento"));
+                obj.setFechaPago(rs.getDate("fecha_pago"));
+                obj.setMora(rs.getDouble("mora"));
+                obj.setEstado(rs.getString("estado"));
+                return obj;
+            }
+            return null;
+        }
+    }
+
     public List<PagoCuotaM> obtenerPorCredito(int creditoId) throws SQLException {
         List<PagoCuotaM> lista = new ArrayList<>();
         String sql = "SELECT * FROM pago_cuota WHERE credito_id = ? ORDER BY numero_cuota";
