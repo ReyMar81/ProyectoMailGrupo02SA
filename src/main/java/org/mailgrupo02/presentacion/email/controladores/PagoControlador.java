@@ -142,7 +142,7 @@ public class PagoControlador {
                 sb.append("<tr>");
                 for (int i = 0; i < fila.length; i++) {
                     String tdStyle = "padding:7px 12px;border-bottom:1px solid #f1f5f9;color:#1e293b;";
-                    if (i == 0) tdStyle += "font-weight:600;color:#6b7280;width:22%;";
+                    if (i == 0) tdStyle += "font-weight:600;color:#6b7280;";
                     sb.append("<td style=\"").append(tdStyle).append("\">").append(fila[i]).append("</td>");
                 }
                 sb.append("</tr>");

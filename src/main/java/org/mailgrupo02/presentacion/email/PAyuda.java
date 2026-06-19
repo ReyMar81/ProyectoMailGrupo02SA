@@ -108,12 +108,20 @@ public class PAyuda {
             {"GETCOMPRA[id]",
              "Detalle de una orden de compra por ID.",
              "GETCOMPRA[1]"},
-            {"CREARCOMPRA[proveedorId,monto]",
-             "<em>proveedorId</em> &rarr; ID del proveedor<br>"
-             + "<em>monto</em> &rarr; total de la compra en Bs.",
-             "CREARCOMPRA[1,15000.00]"},
+            {"CREARCOMPRA[proveedorId]",
+             "Crea una orden de compra en estado <strong>PENDIENTE</strong>.<br>"
+             + "Luego usa AGREGARDETALLECOMPRA para a&ntilde;adir productos.",
+             "CREARCOMPRA[1]"},
+            {"AGREGARDETALLECOMPRA[compraId,productoId,cantidad,precioUnitario]",
+             "A&ntilde;ade un producto a la orden de compra.<br>"
+             + "El total se recalcula autom&aacute;ticamente.",
+             "AGREGARDETALLECOMPRA[1,5,10,175.00]"},
+            {"RECIBIRCOMPRA[id]",
+             "Marca la compra como <strong>RECIBIDA</strong>.<br>"
+             + "Ingresa los productos al inventario autom&aacute;ticamente.",
+             "RECIBIRCOMPRA[1]"},
             {"ANULARCOMPRA[id]",
-             "Anula una orden de compra existente.",
+             "Anula una orden de compra (solo si est&aacute; PENDIENTE).",
              "ANULARCOMPRA[2]"},
         }));
 

@@ -145,7 +145,7 @@ CREATE TABLE compra
     id           SERIAL PRIMARY KEY,
     proveedor_id INTEGER        NOT NULL,
     fecha        TIMESTAMP      DEFAULT CURRENT_TIMESTAMP,
-    total        DECIMAL(12,2)  NOT NULL CHECK (total > 0),
+    total        DECIMAL(12,2)  NOT NULL CHECK (total >= 0),
     estado       VARCHAR(20)    NOT NULL
                      CHECK (estado IN ('PENDIENTE', 'RECIBIDA', 'ANULADA')),
     CONSTRAINT fk_compra_proveedor

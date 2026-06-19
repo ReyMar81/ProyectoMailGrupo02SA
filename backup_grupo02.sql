@@ -1,4 +1,4 @@
--- RAO MOTOS Backup | 2026-06-19T16:38:08.190565100
+-- RAO MOTOS Backup | 2026-06-19T17:09:36.034759600
 
 -- proveedor
 INSERT INTO proveedor (id, razon_social, contacto_principal, telefono, activo) VALUES (1, 'Distribuidora Japonesa Ltda.', 'Tanaka Suzuki', '44123401', true) ON CONFLICT (id) DO NOTHING;
@@ -91,6 +91,7 @@ INSERT INTO compra (id, proveedor_id, fecha, total, estado) VALUES (1, 1, '2026-
 INSERT INTO compra (id, proveedor_id, fecha, total, estado) VALUES (2, 2, '2026-03-15 14:00:00', 8400.00, 'RECIBIDA') ON CONFLICT (id) DO NOTHING;
 INSERT INTO compra (id, proveedor_id, fecha, total, estado) VALUES (3, 1, '2026-03-25 10:00:00', 7300.00, 'RECIBIDA') ON CONFLICT (id) DO NOTHING;
 INSERT INTO compra (id, proveedor_id, fecha, total, estado) VALUES (4, 2, '2026-05-10 11:00:00', 9275.00, 'RECIBIDA') ON CONFLICT (id) DO NOTHING;
+INSERT INTO compra (id, proveedor_id, fecha, total, estado) VALUES (6, 1, '2026-06-19 17:09:17.648', 0.00, 'PENDIENTE') ON CONFLICT (id) DO NOTHING;
 
 -- detalle_compra
 INSERT INTO detalle_compra (id, compra_id, producto_id, cantidad, precio_unitario) VALUES (1, 1, 1, 10, 250.00) ON CONFLICT (id) DO NOTHING;

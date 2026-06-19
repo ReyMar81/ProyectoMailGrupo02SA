@@ -139,9 +139,9 @@ public class ProductoControlador {
           .append("&#9998; Producto Actualizado &mdash; ID: ").append(d.getId()).append("</div>");
         sb.append("<table style=\"width:100%;border-collapse:collapse;font-size:14px;\">");
         sb.append("<tr>")
-          .append("<th style=\"background-color:#4a5568;color:#fff;padding:8px 14px;font-weight:700;width:28%;\">Campo</th>")
-          .append("<th style=\"background-color:#fef2f2;color:#991b1b;padding:8px 14px;font-weight:700;width:36%;\">&#8592; Antes</th>")
-          .append("<th style=\"background-color:#f0fdf4;color:#166534;padding:8px 14px;font-weight:700;width:36%;\">Despu&eacute;s &#8594;</th>")
+          .append("<th style=\"background-color:#4a5568;color:#fff;padding:8px 14px;font-weight:700;\">Campo</th>")
+          .append("<th style=\"background-color:#fef2f2;color:#991b1b;padding:8px 14px;font-weight:700;\">&#8592; Antes</th>")
+          .append("<th style=\"background-color:#f0fdf4;color:#166534;padding:8px 14px;font-weight:700;\">Despu&eacute;s &#8594;</th>")
           .append("</tr>");
         difFila(sb, "C&oacute;digo",       nvl(a.getCodigo()),    nvl(d.getCodigo()));
         difFila(sb, "Nombre",              nvl(a.getNombre()),    nvl(d.getNombre()));
@@ -160,7 +160,7 @@ public class ProductoControlador {
 
     private static void fila(StringBuilder sb, String label, String val) {
         sb.append("<tr>")
-          .append("<td style=\"padding:8px 14px;color:#6b7280;font-weight:600;width:35%;"
+          .append("<td style=\"padding:8px 14px;color:#6b7280;font-weight:600;"
                 + "border-bottom:1px solid #f1f5f9;vertical-align:top;\">").append(label).append("</td>")
           .append("<td style=\"padding:8px 14px;color:#111827;"
                 + "border-bottom:1px solid #f1f5f9;vertical-align:top;\">").append(val).append("</td>")

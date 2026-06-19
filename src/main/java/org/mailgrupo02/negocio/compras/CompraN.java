@@ -10,6 +10,7 @@ public class CompraN implements Serializable {
 
     private int id;
     private int proveedorId;
+    private String proveedorNombre;
     private String fecha;
     private double total;
     private String estado;
@@ -21,6 +22,8 @@ public class CompraN implements Serializable {
     public void setId(int id) { this.id = id; }
     public int getProveedorId() { return proveedorId; }
     public void setProveedorId(int proveedorId) { this.proveedorId = proveedorId; }
+    public String getProveedorNombre() { return proveedorNombre; }
+    public void setProveedorNombre(String proveedorNombre) { this.proveedorNombre = proveedorNombre; }
     public String getFecha() { return fecha; }
     public void setFecha(String fecha) { this.fecha = fecha; }
     public double getTotal() { return total; }
@@ -35,7 +38,7 @@ public class CompraN implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("=== DETALLE DE COMPRA ===\r\n\r\n");
         sb.append("ID: ").append(id).append("\r\n");
-        sb.append("Proveedor ID: ").append(proveedorId).append("\r\n");
+        sb.append("Proveedor: ").append(proveedorNombre != null ? proveedorNombre : String.valueOf(proveedorId)).append("\r\n");
         sb.append("Fecha: ").append(fecha).append("\r\n");
         sb.append("Total: ").append(String.format("%.2f", total)).append("\r\n");
         sb.append("Estado: ").append(estado).append("\r\n");

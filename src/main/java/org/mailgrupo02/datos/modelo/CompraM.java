@@ -25,17 +25,19 @@ public class CompraM {
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
 
-    public String crear() throws SQLException {
-        String sql = "INSERT INTO compra (proveedor_id, fecha, total, estado) VALUES (?, ?, ?, ?)";
+    public int crear() throws SQLException {
+        String sql = "INSERT INTO compra (proveedor_id, fecha, total, estado) VALUES (?, ?, ?, ?) RETURNING id";
         try (Connection conn = Conexion.conectar();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, this.proveedorId);
             pstmt.setTimestamp(2, this.fecha);
             pstmt.setDouble(3, this.total);
             pstmt.setString(4, this.estado);
-            pstmt.executeUpdate();
-            return "Compra creada exitosamente";
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) return rs.getInt(1);
+            }
         }
+        throw new SQLException("No se pudo crear la compra.");
     }
 
     public CompraM leer(int id) throws SQLException {

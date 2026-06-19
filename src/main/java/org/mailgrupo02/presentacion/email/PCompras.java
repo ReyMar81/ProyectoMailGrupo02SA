@@ -27,10 +27,12 @@ public class PCompras {
         if (cmd == null) return "Compras";
         switch (cmd.toUpperCase()) {
             case "LISTARCOMPRAS": case "LISTARCOMPRA": return "Registro de Compras";
-            case "CREARCOMPRA":   return "Registrar Compra a Proveedor";
+            case "CREARCOMPRA":   return "Nueva Orden de Compra";
+            case "AGREGARDETALLECOMPRA": return "Agregar Detalle a Compra";
+            case "RECIBIRCOMPRA": return "Recibir Compra (Ingreso a Inventario)";
             case "ANULARCOMPRA":  return "Anular Compra";
             case "GETCOMPRA":     return "Detalle de Compra";
-            default:              return "Gestión de Compras";
+            default:              return "Gesti\u00f3n de Compras";
         }
     }
 }

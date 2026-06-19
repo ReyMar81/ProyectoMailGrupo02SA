@@ -13,8 +13,19 @@ public class PlantillaBase {
             "body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#1e293b;margin:0;padding:0;}\n" +
             ".container{width:100%;max-width:900px;margin:20px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12);border:1px solid #e2e8f0;}\n" +
             ".content{padding:28px 24px;}\n" +
-            "table{border-collapse:collapse;}\n" +
-            "code{font-family:'Courier New',monospace;background:#f1f5f9;color:#1d4ed8;padding:2px 6px;border-radius:3px;font-size:13px;}\n";
+            "table{border-collapse:collapse;width:100%}\n" +
+            "td,th{word-wrap:break-word;overflow-wrap:break-word;word-break:break-word}\n" +
+            "img{max-width:100%;height:auto}\n" +
+            "pre{white-space:pre-wrap;word-break:break-word}\n" +
+            "code{font-family:'Courier New',monospace;background:#f1f5f9;color:#1d4ed8;padding:2px 6px;border-radius:3px;font-size:13px;}\n" +
+            "@media(max-width:600px){" +
+            ".container{border-radius:0;margin:0;border:none;box-shadow:none}" +
+            ".content{padding:14px 10px!important}" +
+            ".hdr{padding:18px 10px!important}" +
+            ".hdr h1{font-size:20px!important;letter-spacing:2px!important}" +
+            ".hdr p{font-size:11px!important}" +
+            ".ftr{padding:12px 10px!important;font-size:11px!important}" +
+            "}\n";
     }
 
     // ── Wrapper principal ────────────────────────────────────────────────────
@@ -24,7 +35,7 @@ public class PlantillaBase {
                "<style>\n" + css() + "</style>\n</head>\n<body>\n" +
                "<div style=\"width:100%;max-width:900px;margin:20px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12);border:1px solid #e2e8f0;\">\n" +
                // Header
-               "<div style=\"background:linear-gradient(135deg,#c0392b,#7b241c);padding:28px 24px;text-align:center;color:#fff;\">" +
+               "<div class=\"hdr\" style=\"background:linear-gradient(135deg,#c0392b,#7b241c);padding:28px 24px;text-align:center;color:#fff;\">" +
                "<span style=\"display:block;font-size:44px;line-height:1;margin-bottom:8px;\">&#x1F3CD;&#xFE0F;</span>" +
                "<h1 style=\"margin:0;font-size:30px;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:#fff;\">RAO MOTOS</h1>" +
                "<div style=\"width:44px;height:3px;background:rgba(255,255,255,0.35);margin:10px auto 8px;border-radius:2px;\"></div>" +
@@ -33,7 +44,7 @@ public class PlantillaBase {
                // Content
                "<div style=\"padding:28px 24px;\">" + contenido + "</div>\n" +
                // Footer
-               "<div style=\"background:#4a5568;padding:16px 24px;text-align:center;font-size:13px;color:#fff;\">" +
+               "<div class=\"ftr\" style=\"background:#4a5568;padding:16px 24px;text-align:center;font-size:13px;color:#fff;\">" +
                "<strong>Grupo 02 SA &mdash; Tecnolog&iacute;a Web (UAGRM)</strong><br>" +
                "Correo autom&aacute;tico &mdash; no responder directamente." +
                "</div>\n" +
@@ -149,7 +160,7 @@ public class PlantillaBase {
         for (String h : headers) {
             sb.append("<th style=\"background-color:#c0392b;color:#fff;padding:9px 12px;text-align:left;" +
                       "font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;" +
-                      "white-space:nowrap;border-right:1px solid #9b2d2d;\">")
+                      "border-right:1px solid #9b2d2d;\">")
               .append(h.isEmpty() ? "&nbsp;" : escape(h)).append("</th>");
         }
         sb.append("</tr></thead><tbody>");
@@ -171,8 +182,7 @@ public class PlantillaBase {
                 }
                 sb.append("<td style=\"padding:9px 12px;border-bottom:1px solid #f1f5f9;" +
                           "color:#1e293b;border-right:1px solid #f1f5f9;" +
-                          "word-wrap:break-word;overflow-wrap:break-word;word-break:break-word;" +
-                          "max-width:220px;\">")
+                          "word-wrap:break-word;overflow-wrap:break-word;word-break:break-word;\">")
                   .append(badgeEstado(val))
                   .append("</td>");
             }

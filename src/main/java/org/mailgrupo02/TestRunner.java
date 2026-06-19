@@ -129,13 +129,18 @@ public class TestRunner {
         // ════════════════════════════════════════════════════════════════════
         grupo("COMPRAS");
         if (proveedorId > 0) {
-            String rCompra = enviar("CREARCOMPRA[" + proveedorId + ",12000.00]");
+            String rCompra = enviar("CREARCOMPRA[" + proveedorId + "]");
             compraId = extractId(rCompra);
             note("compraId extraído = " + compraId);
-            if (compraId > 0) enviar("GETCOMPRA[" + compraId + "]");
+            if (compraId > 0) {
+                enviar("AGREGARDETALLECOMPRA[" + compraId + ",1,5,250.00]");
+                enviar("AGREGARDETALLECOMPRA[" + compraId + ",2,3,130.00]");
+                enviar("RECIBIRCOMPRA[" + compraId + "]");
+                enviar("GETCOMPRA[" + compraId + "]");
+            }
 
             // Segunda compra para probar ANULARCOMPRA
-            String rCompra2 = enviar("CREARCOMPRA[" + proveedorId + ",500.00]");
+            String rCompra2 = enviar("CREARCOMPRA[" + proveedorId + "]");
             int compra2Id = extractId(rCompra2);
             note("compra2Id extraído = " + compra2Id);
             if (compra2Id > 0) enviar("ANULARCOMPRA[" + compra2Id + "]");

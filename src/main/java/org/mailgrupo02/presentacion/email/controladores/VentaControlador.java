@@ -128,7 +128,7 @@ public class VentaControlador {
         String b64 = qr[1].replace("\r", "").replace("\n", "").trim();
         return "<div style=\"text-align:center;margin:15px 0;\">" +
                "<img src=\"data:image/png;base64," + b64 +
-               "\" style=\"max-width:250px;border:4px solid #1d4ed8;border-radius:12px;\"><br><br>" +
+               "\" style=\"max-width:100%;width:250px;border:4px solid #1d4ed8;border-radius:12px;\"><br><br>" +
                "<strong style=\"color:#1d4ed8;font-size:15px;\">Monto: " +
                String.format("%.2f", monto) + " Bs.</strong><br>" +
                "<span style=\"color:#6b7280;font-size:12px;\">Ref: " + txId + "</span>" +
