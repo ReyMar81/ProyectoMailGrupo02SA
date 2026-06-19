@@ -1,13 +1,13 @@
 package org.mailgrupo02;
 
-import org.mailgrupo02.servicioemail.ClientePOP;
-import org.mailgrupo02.servicioemail.ClienteSMTP;
-import org.mailgrupo02.servicioemail.ComandoEmailNuevo;
-import org.mailgrupo02.sistema.conexion.Conexion;
-import org.mailgrupo02.sistema.modelo.*;
-import org.mailgrupo02.sistema.negocio.usuarios.UsuarioService;
-import org.mailgrupo02.sistema.negocio.productos.ProductoService;
-import org.mailgrupo02.sistema.negocio.ventas.VentaService;
+import org.mailgrupo02.presentacion.email.ClientePOP;
+import org.mailgrupo02.presentacion.email.ClienteSMTP;
+import org.mailgrupo02.presentacion.email.ComandoEmailNuevo;
+import org.mailgrupo02.datos.conexion.Conexion;
+import org.mailgrupo02.datos.modelo.*;
+import org.mailgrupo02.negocio.usuarios.UsuarioService;
+import org.mailgrupo02.negocio.productos.ProductoService;
+import org.mailgrupo02.negocio.ventas.VentaService;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
