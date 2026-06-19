@@ -7,12 +7,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Base64;
 
 public class ClienteSMTP {
 
     private static final String SERVIDOR = ConfigEmailServer.HOST;
     private static final int PUERTO = Integer.parseInt(ConfigEmailServer.PORT_SMTP);
     private static final String EMISOR = ConfigEmailServer.MAIL;
+    private static final String USUARIO = ConfigEmailServer.USER;
+    private static final String CONTRASENA = ConfigEmailServer.PASSWORD;
 
     private static void enviarComando(DataOutputStream salida, BufferedReader entrada, String comando)
             throws IOException {
@@ -40,22 +43,28 @@ public class ClienteSMTP {
         return lines.toString();
     }
 
-    public void enviarCorreo(String usuarioReceptor, String subject, String mensaje) {
+    public void enviarCorreo(String usuarioReceptor, String subject, String mensaje) throws IOException {
         try (Socket socket = new Socket(SERVIDOR, PUERTO);
                 BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 DataOutputStream salida = new DataOutputStream(socket.getOutputStream())) {
 
             System.out.println("S : " + entrada.readLine());
 
-            enviarComando(salida, entrada, "HELO " + SERVIDOR + "\r\n");
+            enviarComando(salida, entrada, "EHLO " + SERVIDOR + "\r\n");
+            enviarComando(salida, entrada, "AUTH LOGIN\r\n");
+            enviarComando(salida, entrada,
+                    Base64.getEncoder().encodeToString(USUARIO.getBytes()) + "\r\n");
+            enviarComando(salida, entrada,
+                    Base64.getEncoder().encodeToString(CONTRASENA.getBytes()) + "\r\n");
             enviarComando(salida, entrada, "MAIL FROM:<" + EMISOR + ">\r\n");
             enviarComando(salida, entrada, "RCPT TO:<" + usuarioReceptor + ">\r\n");
             enviarComando(salida, entrada, "DATA\r\n");
-            enviarComando(salida, entrada, "Subject: " + subject + "\r\n" + mensaje + "\r\n.\r\n");
+            String headers = "Subject: " + subject + "\r\n"
+                    + "MIME-Version: 1.0\r\n"
+                    + "Content-Type: text/html; charset=UTF-8\r\n"
+                    + "\r\n";
+            enviarComando(salida, entrada, headers + mensaje + "\r\n.\r\n");
             enviarComando(salida, entrada, "QUIT\r\n");
-
-        } catch (Exception e) {
-            System.out.println("S : No se pudo conectar con el servidor, error: " + e.getMessage());
         }
     }
 }
