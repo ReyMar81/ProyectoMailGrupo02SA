@@ -147,9 +147,9 @@ public class PlantillaBase {
         // Fila de encabezados
         sb.append("<thead><tr>");
         for (String h : headers) {
-            sb.append("<th style=\"background:#c0392b;color:#fff;padding:9px 12px;text-align:left;" +
+            sb.append("<th style=\"background-color:#c0392b;color:#fff;padding:9px 12px;text-align:left;" +
                       "font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;" +
-                      "white-space:nowrap;border-right:1px solid rgba(255,255,255,0.15);\">")
+                      "white-space:nowrap;border-right:1px solid #9b2d2d;\">")
               .append(h.isEmpty() ? "&nbsp;" : escape(h)).append("</th>");
         }
         sb.append("</tr></thead><tbody>");
@@ -160,7 +160,7 @@ public class PlantillaBase {
             String row = lineas[i];
             if (row.trim().isEmpty()) continue;
             String rowBg = par ? "#f8fafc" : "#ffffff";
-            sb.append("<tr style=\"background:").append(rowBg).append(";\">");
+            sb.append("<tr style=\"background-color:").append(rowBg).append(";\">");
 
             for (int c = 0; c < colStarts.size(); c++) {
                 int start = colStarts.get(c);
@@ -196,7 +196,7 @@ public class PlantillaBase {
 
     // ── Helpers privados ─────────────────────────────────────────────────────
     private static String cabeceraTbl(String icono) {
-        return "<div style=\"background:#4a5568;color:#fff;padding:10px 18px;" +
+        return "<div style=\"background-color:#4a5568;color:#fff;padding:10px 18px;" +
                "border-radius:10px 10px 0 0;font-size:14px;font-weight:700;" +
                "letter-spacing:0.4px;\">" + icono + " Resultados</div>";
     }
@@ -205,28 +205,28 @@ public class PlantillaBase {
         if (val == null || val.isEmpty()) return "<span style=\"color:#9ca3af;\">—</span>";
         switch (val) {
             case "PENDIENTE":
-                return "<span style=\"background:#fef3c7;color:#92400e;padding:2px 8px;" +
+                return "<span style=\"background-color:#fef3c7;color:#92400e;padding:2px 8px;" +
                        "border-radius:4px;font-size:11px;font-weight:700;\">PENDIENTE</span>";
             case "PAGADO":
-                return "<span style=\"background:#dcfce7;color:#166534;padding:2px 8px;" +
+                return "<span style=\"background-color:#dcfce7;color:#166534;padding:2px 8px;" +
                        "border-radius:4px;font-size:11px;font-weight:700;\">PAGADO</span>";
             case "CANCELADO":
-                return "<span style=\"background:#dcfce7;color:#166534;padding:2px 8px;" +
+                return "<span style=\"background-color:#dcfce7;color:#166534;padding:2px 8px;" +
                        "border-radius:4px;font-size:11px;font-weight:700;\">CANCELADO</span>";
             case "ACTIVO":
-                return "<span style=\"background:#dcfce7;color:#166534;padding:2px 8px;" +
+                return "<span style=\"background-color:#dcfce7;color:#166534;padding:2px 8px;" +
                        "border-radius:4px;font-size:11px;font-weight:700;\">ACTIVO</span>";
             case "ANULADO":
             case "INACTIVO":
-                return "<span style=\"background:#fee2e2;color:#991b1b;padding:2px 8px;" +
+                return "<span style=\"background-color:#fee2e2;color:#991b1b;padding:2px 8px;" +
                        "border-radius:4px;font-size:11px;font-weight:700;\">" + val + "</span>";
             case "SOLICITADO":
             case "DESPACHADO":
             case "PROCESADO":
-                return "<span style=\"background:#dbeafe;color:#1d4ed8;padding:2px 8px;" +
+                return "<span style=\"background-color:#dbeafe;color:#1d4ed8;padding:2px 8px;" +
                        "border-radius:4px;font-size:11px;font-weight:700;\">" + val + "</span>";
             case "VIGENTE":
-                return "<span style=\"background:#f3e8ff;color:#7c3aed;padding:2px 8px;" +
+                return "<span style=\"background-color:#f3e8ff;color:#7c3aed;padding:2px 8px;" +
                        "border-radius:4px;font-size:11px;font-weight:700;\">VIGENTE</span>";
             default:
                 return escape(val);

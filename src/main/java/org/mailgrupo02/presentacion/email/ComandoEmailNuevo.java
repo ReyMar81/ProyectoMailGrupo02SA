@@ -37,6 +37,7 @@ public class ComandoEmailNuevo {
 
             // Despachar al controlador correspondiente
             if (UsuarioControlador.canHandle(cmd))    return UsuarioControlador.handle(cmd, params);
+            if (ProveedorControlador.canHandle(cmd))  return ProveedorControlador.handle(cmd, params);
             if (ProductoControlador.canHandle(cmd))   return ProductoControlador.handle(cmd, params);
             if (VentaControlador.canHandle(cmd))      return VentaControlador.handle(cmd, params);
             if (CompraControlador.canHandle(cmd))     return CompraControlador.handle(cmd, params);

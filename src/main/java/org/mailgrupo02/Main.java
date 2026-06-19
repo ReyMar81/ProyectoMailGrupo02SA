@@ -4,6 +4,7 @@ import org.mailgrupo02.presentacion.email.ClientePOP;
 import org.mailgrupo02.presentacion.email.ClienteSMTP;
 import org.mailgrupo02.presentacion.email.ComandoEmailNuevo;
 import org.mailgrupo02.presentacion.email.PPagos;
+import org.mailgrupo02.presentacion.email.PVentas;
 import org.mailgrupo02.datos.conexion.Conexion;
 import org.mailgrupo02.datos.modelo.*;
 import org.mailgrupo02.datos.backup.BackupService;
@@ -205,6 +206,17 @@ public class Main {
                         } catch (Exception e) {
                             System.err.println("[Reconciliacion] Error al confirmar " + txId + ": " + e.getMessage());
                         }
+                    } else if (txId.startsWith("VTA-")) {
+                        try {
+                            int ventaId = Integer.parseInt(txId.substring(4));
+                            System.out.println("[Reconciliacion] Venta #" + ventaId + " pago QR confirmado.");
+                            String html = PVentas.generarHtml("CREARVENTA_CONTADO",
+                                "Pago de Venta #" + ventaId + " confirmado exitosamente. Monto: "
+                                + String.format("%.2f", monto) + " Bs.");
+                            smtp.enviarCorreo(email, "Confirmacion de Pago - " + txId, html);
+                        } catch (Exception e) {
+                            System.err.println("[Reconciliacion] Error al confirmar " + txId + ": " + e.getMessage());
+                        }
                     }
                     completadas.add(txId);
                 } else {
@@ -241,7 +253,8 @@ public class Main {
             return s.startsWith("CREATE") || s.startsWith("UPDATE") || s.startsWith("DELETE")
                 || s.startsWith("CREAR")  || s.startsWith("ANULAR") || s.startsWith("DESPACHAR")
                 || s.startsWith("REGISTRAR") || s.startsWith("PROCESAR") || s.startsWith("CAMBIAR")
-                || s.startsWith("PEDIDO[") || s.startsWith("CANCELAR") || s.startsWith("PAGAR");
+                || s.startsWith("PEDIDO[") || s.startsWith("CANCELAR") || s.startsWith("PAGAR")
+                || s.startsWith("CREATEPROVEEDOR") || s.startsWith("DELETEPROVEEDOR");
         }
 
         private String extraerEmail(String from) {

@@ -1,8 +1,11 @@
 package org.mailgrupo02.presentacion.email.controladores;
 
 import org.mailgrupo02.datos.modelo.CreditoM;
+import org.mailgrupo02.datos.modelo.UsuarioM;
 import org.mailgrupo02.datos.modelo.VentaM;
+import org.mailgrupo02.negocio.pagos.PagoFacilService;
 import org.mailgrupo02.negocio.ventas.VentaService;
+import org.mailgrupo02.presentacion.email.PlantillaBase;
 import org.mailgrupo02.presentacion.email.PVentas;
 
 import java.sql.Timestamp;
@@ -41,14 +44,21 @@ public class VentaControlador {
                     break;
                 }
 
-                case "CREARVENTA_CONTADO":
+                case "CREARVENTA_CONTADO": {
                     if (params.size() < 4) return PVentas.generarHtml(cmd, "Error: se requieren 4 parámetros [clienteId,fecha,montoTotal,metodoPago].");
-                    rawResult = service.crearVentaContado(
-                        Integer.parseInt(params.get(0).trim()),
-                        Timestamp.valueOf(params.get(1).trim()),
-                        Double.parseDouble(params.get(2).trim()),
-                        params.get(3).trim());
+                    String metodo = params.get(3).trim();
+                    int cId = Integer.parseInt(params.get(0).trim());
+                    double monto = Double.parseDouble(params.get(2).trim());
+                    rawResult = service.crearVentaContado(cId, Timestamp.valueOf(params.get(1).trim()), monto, metodo);
+                    if ("QR".equalsIgnoreCase(metodo)) {
+                        String idStr = PlantillaBase.extraerId(rawResult);
+                        if (idStr != null) {
+                            String qrHtml = generarQRVenta(Integer.parseInt(idStr), cId, monto);
+                            if (qrHtml != null) rawResult += qrHtml;
+                        }
+                    }
                     break;
+                }
 
                 case "CREARVENTA_CREDITO":
                     if (params.size() < 6) return PVentas.generarHtml(cmd, "Error: se requieren 6 parámetros [clienteId,fecha,montoTotal,nroCuotas,tasaInteres,metodoPago].");
@@ -74,5 +84,34 @@ public class VentaControlador {
         } catch (Exception e) {
             return PVentas.generarHtml(cmd, "Error: " + e.getMessage());
         }
+    }
+
+    private static String generarQRVenta(int ventaId, int clienteId, double monto) {
+        String nombre = "", email = "", tel = "";
+        try {
+            UsuarioM u = UsuarioM.leer(clienteId);
+            if (u != null) {
+                nombre = u.getNombre()   != null ? u.getNombre()   : "";
+                email  = u.getEmail()    != null ? u.getEmail()    : "";
+                tel    = u.getTelefono() != null ? u.getTelefono() : "";
+            }
+        } catch (Exception e) {
+            System.err.println("[VentaControlador] " + e.getMessage());
+        }
+
+        String txId = "VTA-" + ventaId;
+        String[] qr = PagoFacilService.generarQR(nombre, tel, email, txId, monto, "Venta al contado #" + ventaId);
+        if (qr == null) return null;
+
+        PagoFacilService.registrarTransaccion(txId, email, monto, "venta;" + qr[0]);
+
+        String b64 = qr[1].replace("\r", "").replace("\n", "").trim();
+        return "<div style=\"text-align:center;margin:15px 0;\">" +
+               "<img src=\"data:image/png;base64," + b64 +
+               "\" style=\"max-width:250px;border:4px solid #1d4ed8;border-radius:12px;\"><br><br>" +
+               "<strong style=\"color:#1d4ed8;font-size:15px;\">Monto: " +
+               String.format("%.2f", monto) + " Bs.</strong><br>" +
+               "<span style=\"color:#6b7280;font-size:12px;\">Ref: " + txId + "</span>" +
+               "</div>";
     }
 }

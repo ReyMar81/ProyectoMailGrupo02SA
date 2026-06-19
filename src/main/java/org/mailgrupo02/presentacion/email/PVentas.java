@@ -8,7 +8,9 @@ public class PVentas {
 
         boolean esError = resultado.trim().toLowerCase().startsWith("error");
 
-        if (resultado.contains("---") || resultado.contains("===")) {
+        if (resultado.contains("<img") || resultado.contains("<div style")) {
+            body.append(PlantillaBase.qrCard(resultado));
+        } else if (resultado.contains("---") || resultado.contains("===")) {
             body.append(PlantillaBase.tablaHtml("&#128202;", resultado));
         } else if (esError) {
             body.append(PlantillaBase.errCard(resultado));

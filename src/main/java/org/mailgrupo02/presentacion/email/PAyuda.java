@@ -68,14 +68,22 @@ public class PAyuda {
              "PAGARCUOTA[2,1]"},
         }));
 
-        // ── PROVEEDOR ────────────────────────────────────────────────────────
-        c.append(seccion("&#128666; Comandos para proveedores (rol: PROVEEDOR)", new String[][]{
-            {"LISTARCOMPRAS[*]",
-             "Lista todas las &oacute;rdenes de compra del sistema.",
-             "LISTARCOMPRAS[*]"},
-            {"GETCOMPRA[id]",
-             "<em>id</em> &rarr; n&uacute;mero de la compra.",
-             "GETCOMPRA[1]"},
+        // ── PROVEEDORES ───────────────────────────────────────────────────────
+        c.append(seccion("&#128666; Gesti&oacute;n de Proveedores (solo PROPIETARIO)", new String[][]{
+            {"LISTARPROVEEDORES[*]",
+             "Lista todos los proveedores registrados.",
+             "LISTARPROVEEDORES[*]"},
+            {"GETPROVEEDOR[id]",
+             "Detalle de un proveedor por ID.",
+             "GETPROVEEDOR[1]"},
+            {"CREATEPROVEEDOR[razonSocial,contacto,telefono]",
+             "<em>razonSocial</em> &rarr; nombre de la empresa<br>"
+             + "<em>contacto</em> &rarr; nombre del contacto principal<br>"
+             + "<em>telefono</em> &rarr; tel&eacute;fono de contacto",
+             "CREATEPROVEEDOR[Honda Bolivia,Carlos Mamani,77712345]"},
+            {"DELETEPROVEEDOR[id]",
+             "Elimina un proveedor del sistema.",
+             "DELETEPROVEEDOR[1]"},
         }));
 
         // ── PROPIETARIO ─ Usuarios ───────────────────────────────────────────
@@ -144,8 +152,14 @@ public class PAyuda {
 
         // ── PROPIETARIO ─ Compras ────────────────────────────────────────────
         c.append(seccion("&#128666; Gesti&oacute;n de Compras (solo PROPIETARIO)", new String[][]{
-            {"CREARCOMPRA[proveedorId,total]",
-             "<em>proveedorId</em> &rarr; n&uacute;mero &nbsp;|&nbsp; <em>total</em> &rarr; decimal Bs.",
+            {"LISTARCOMPRAS[*]",
+             "Lista todas las &oacute;rdenes de compra del sistema.",
+             "LISTARCOMPRAS[*]"},
+            {"GETCOMPRA[id]",
+             "<em>id</em> &rarr; n&uacute;mero de la compra.",
+             "GETCOMPRA[1]"},
+            {"CREARCOMPRA[proveedorId,monto]",
+             "<em>proveedorId</em> &rarr; n&uacute;mero de proveedor &nbsp;|&nbsp; <em>monto</em> &rarr; decimal Bs.",
              "CREARCOMPRA[2,15000.00]"},
             {"ANULARCOMPRA[id]",
              "Anula una compra.",
@@ -226,7 +240,7 @@ public class PAyuda {
         StringBuilder sb = new StringBuilder();
         // Título de sección
         sb.append("<div style=\"margin-bottom:20px;\">");
-        sb.append("<div style=\"font-size:13px;font-weight:800;color:#fff;background:#c0392b;" +
+        sb.append("<div style=\"font-size:13px;font-weight:800;color:#fff;background-color:#c0392b;" +
                   "padding:9px 14px;border-radius:8px 8px 0 0;margin:0;\">")
           .append(titulo).append("</div>");
         // Tabla con bordes
@@ -234,18 +248,18 @@ public class PAyuda {
                   "border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;overflow:hidden;\">");
         // Cabecera
         sb.append("<tr>");
-        sb.append("<th style=\"background:#4a5568;color:#fff;padding:8px 12px;text-align:left;" +
+        sb.append("<th style=\"background-color:#4a5568;color:#fff;padding:8px 12px;text-align:left;" +
                   "font-size:12px;font-weight:700;text-transform:uppercase;width:34%;\">Asunto del correo</th>");
-        sb.append("<th style=\"background:#4a5568;color:#fff;padding:8px 12px;text-align:left;" +
+        sb.append("<th style=\"background-color:#4a5568;color:#fff;padding:8px 12px;text-align:left;" +
                   "font-size:12px;font-weight:700;text-transform:uppercase;width:36%;\">Descripci&oacute;n</th>");
-        sb.append("<th style=\"background:#4a5568;color:#fff;padding:8px 12px;text-align:left;" +
+        sb.append("<th style=\"background-color:#4a5568;color:#fff;padding:8px 12px;text-align:left;" +
                   "font-size:12px;font-weight:700;text-transform:uppercase;width:30%;\">Ejemplo</th>");
         sb.append("</tr>");
         // Filas de comandos
         boolean par = false;
         for (String[] cmd : comandos) {
             String bg = par ? "#f9fafb" : "#ffffff";
-            sb.append("<tr style=\"background:").append(bg).append(";\">");
+            sb.append("<tr style=\"background-color:").append(bg).append(";\">");
             // Columna: comando
             sb.append("<td style=\"padding:9px 12px;border-bottom:1px solid #f1f5f9;vertical-align:top;\">")
               .append("<code style=\"font-family:'Courier New',monospace;font-size:11px;background:#eff6ff;" +
