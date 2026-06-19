@@ -3,7 +3,7 @@ package org.mailgrupo02.presentacion.email;
 public class PPagos {
 
     private static final String COLOR1 = "#b91c1c";
-    private static final String COLOR2 = "#991b1b";
+    private static final String COLOR2 = "#7f1d1d";
 
     public static String generarHtml(String comando, String resultado) {
         StringBuilder body = new StringBuilder();
@@ -57,13 +57,13 @@ public class PPagos {
                ".header h1{margin:0;font-size:22px;font-weight:700;letter-spacing:1px;}\n" +
                ".header p{margin:6px 0 0;font-size:13px;opacity:0.85;}\n" +
                ".content{padding:30px 28px;}\n" +
-               ".card-title{font-size:18px;font-weight:600;margin-top:0;margin-bottom:16px;color:" + COLOR1 + ";border-bottom:2px solid #f1f5f9;padding-bottom:8px;}\n" +
+               ".card-title{font-size:18px;font-weight:600;margin-top:0;margin-bottom:16px;color:" + COLOR1 + ";border-bottom:2px solid #fee2e2;padding-bottom:8px;}\n" +
                ".alert{padding:16px;border-radius:12px;margin-bottom:20px;font-size:14px;line-height:1.6;}\n" +
                ".alert-success{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;}\n" +
                ".alert-error{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;}\n" +
                ".alert-info{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;}\n" +
                ".table-container{overflow-x:auto;margin-top:8px;}\n" +
-               ".table-pre{font-family:'Courier New',Courier,monospace;font-size:12px;background:#fff1f2;padding:16px;border-radius:10px;border:1px solid #fecdd3;white-space:pre;color:#1e293b;line-height:1.55;margin:0;}\n" +
+               ".table-pre{font-family:'Courier New',Courier,monospace;font-size:12px;background:#f8fafc;padding:16px;border-radius:10px;border:1px solid #e2e8f0;white-space:pre;color:#1e293b;line-height:1.55;margin:0;}\n" +
                ".footer{background:#f8fafc;padding:20px;text-align:center;font-size:12px;color:#64748b;border-top:1px solid #e2e8f0;}\n" +
                "</style>\n</head>\n<body>\n" +
                "<div class=\"container\">\n" +

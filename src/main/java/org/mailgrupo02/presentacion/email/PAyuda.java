@@ -107,13 +107,13 @@ public class PAyuda {
         return "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"utf-8\">\n<style>\n" +
                "body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f1f5f9;color:#1e293b;margin:0;padding:0;}\n" +
                ".container{max-width:680px;margin:30px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.10);border:1px solid #e2e8f0;}\n" +
-               ".header{background:linear-gradient(135deg,#374151,#1f2937);padding:30px 20px;text-align:center;color:#fff;}\n" +
+               ".header{background:linear-gradient(135deg,#b91c1c,#7f1d1d);padding:30px 20px;text-align:center;color:#fff;}\n" +
                ".header h1{margin:0;font-size:22px;font-weight:700;letter-spacing:1px;}\n" +
                ".header p{margin:6px 0 0;font-size:13px;opacity:0.85;}\n" +
                ".content{padding:30px 28px;}\n" +
-               ".card-title{font-size:18px;font-weight:600;margin-top:0;margin-bottom:16px;color:#374151;border-bottom:2px solid #f1f5f9;padding-bottom:8px;}\n" +
+               ".card-title{font-size:18px;font-weight:600;margin-top:0;margin-bottom:16px;color:#b91c1c;border-bottom:2px solid #fee2e2;padding-bottom:8px;}\n" +
                ".section{margin-bottom:24px;}\n" +
-               ".section-title{font-size:14px;font-weight:700;color:#fff;background:#374151;padding:8px 14px;border-radius:6px;margin:0 0 10px 0;}\n" +
+               ".section-title{font-size:14px;font-weight:700;color:#fff;background:#4b5563;padding:8px 14px;border-radius:6px;margin:0 0 10px 0;}\n" +
                ".alert{padding:16px;border-radius:12px;margin-bottom:20px;font-size:14px;line-height:1.6;}\n" +
                ".alert-error{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;}\n" +
                "table{width:100%;border-collapse:collapse;margin-top:0;font-size:13px;}\n" +
