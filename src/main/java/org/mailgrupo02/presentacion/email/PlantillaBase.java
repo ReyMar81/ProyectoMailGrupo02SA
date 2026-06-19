@@ -11,7 +11,7 @@ public class PlantillaBase {
     static String css() {
         return
             "body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#1e293b;margin:0;padding:0;}\n" +
-            ".container{max-width:700px;margin:20px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12);border:1px solid #e2e8f0;}\n" +
+            ".container{width:100%;max-width:900px;margin:20px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12);border:1px solid #e2e8f0;}\n" +
             ".content{padding:28px 24px;}\n" +
             "table{border-collapse:collapse;}\n" +
             "code{font-family:'Courier New',monospace;background:#f1f5f9;color:#1d4ed8;padding:2px 6px;border-radius:3px;font-size:13px;}\n";
@@ -22,7 +22,7 @@ public class PlantillaBase {
         return "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"utf-8\">\n" +
                "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n" +
                "<style>\n" + css() + "</style>\n</head>\n<body>\n" +
-               "<div style=\"max-width:700px;margin:20px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12);border:1px solid #e2e8f0;\">\n" +
+               "<div style=\"width:100%;max-width:900px;margin:20px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12);border:1px solid #e2e8f0;\">\n" +
                // Header
                "<div style=\"background:linear-gradient(135deg,#c0392b,#7b241c);padding:28px 24px;text-align:center;color:#fff;\">" +
                "<span style=\"display:block;font-size:44px;line-height:1;margin-bottom:8px;\">&#x1F3CD;&#xFE0F;</span>" +
