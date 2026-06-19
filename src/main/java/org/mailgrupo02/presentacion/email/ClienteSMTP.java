@@ -55,7 +55,8 @@ public class ClienteSMTP {
                     + "MIME-Version: 1.0\r\n"
                     + "Content-Type: text/html; charset=UTF-8\r\n"
                     + "\r\n";
-            enviarComando(salida, entrada, headers + mensaje + "\r\n.\r\n");
+            String cuerpo = mensaje.replace("\r\n", "\n").replace("\n", "\r\n");
+            enviarComando(salida, entrada, headers + cuerpo + "\r\n.\r\n");
             enviarComando(salida, entrada, "QUIT\r\n");
         }
     }
