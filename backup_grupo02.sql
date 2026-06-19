@@ -1,4 +1,4 @@
--- RAO MOTOS Backup | 2026-06-19T17:09:36.034759600
+-- RAO MOTOS Backup | 2026-06-19T18:21:31.802676700
 
 -- proveedor
 INSERT INTO proveedor (id, razon_social, contacto_principal, telefono, activo) VALUES (1, 'Distribuidora Japonesa Ltda.', 'Tanaka Suzuki', '44123401', true) ON CONFLICT (id) DO NOTHING;
@@ -57,9 +57,9 @@ INSERT INTO inventario (id, producto_id, stock_actual, tecnica_inventario, tecni
 INSERT INTO inventario (id, producto_id, stock_actual, tecnica_inventario, tecnica_costo, fecha_actualizacion) VALUES (9, 9, 4, 'PERMANENTE', 'PROMEDIO', '2026-06-19 15:20:06.200509') ON CONFLICT (id) DO NOTHING;
 INSERT INTO inventario (id, producto_id, stock_actual, tecnica_inventario, tecnica_costo, fecha_actualizacion) VALUES (10, 10, 94, 'PERMANENTE', 'PROMEDIO', '2026-06-19 15:20:06.200509') ON CONFLICT (id) DO NOTHING;
 INSERT INTO inventario (id, producto_id, stock_actual, tecnica_inventario, tecnica_costo, fecha_actualizacion) VALUES (11, 11, 31, 'PERMANENTE', 'PROMEDIO', '2026-06-19 15:20:06.200509') ON CONFLICT (id) DO NOTHING;
-INSERT INTO inventario (id, producto_id, stock_actual, tecnica_inventario, tecnica_costo, fecha_actualizacion) VALUES (12, 12, 208, 'PERMANENTE', 'PROMEDIO', '2026-06-19 15:20:06.200509') ON CONFLICT (id) DO NOTHING;
+INSERT INTO inventario (id, producto_id, stock_actual, tecnica_inventario, tecnica_costo, fecha_actualizacion) VALUES (12, 12, 218, 'PERMANENTE', 'PROMEDIO', '2026-06-19 17:18:10.144') ON CONFLICT (id) DO NOTHING;
 INSERT INTO inventario (id, producto_id, stock_actual, tecnica_inventario, tecnica_costo, fecha_actualizacion) VALUES (13, 13, 55, 'PERMANENTE', 'PROMEDIO', '2026-06-19 15:20:06.200509') ON CONFLICT (id) DO NOTHING;
-INSERT INTO inventario (id, producto_id, stock_actual, tecnica_inventario, tecnica_costo, fecha_actualizacion) VALUES (14, 14, 3, 'PERMANENTE', 'PROMEDIO', '2026-06-19 15:20:06.200509') ON CONFLICT (id) DO NOTHING;
+INSERT INTO inventario (id, producto_id, stock_actual, tecnica_inventario, tecnica_costo, fecha_actualizacion) VALUES (14, 14, 1, 'PERMANENTE', 'PROMEDIO', '2026-06-19 17:52:21.141') ON CONFLICT (id) DO NOTHING;
 INSERT INTO inventario (id, producto_id, stock_actual, tecnica_inventario, tecnica_costo, fecha_actualizacion) VALUES (15, 15, 19, 'PERMANENTE', 'PROMEDIO', '2026-06-19 15:20:06.200509') ON CONFLICT (id) DO NOTHING;
 
 -- movimiento_inventario
@@ -85,13 +85,15 @@ INSERT INTO movimiento_inventario (id, inventario_id, tipo_movimiento, cantidad,
 INSERT INTO movimiento_inventario (id, inventario_id, tipo_movimiento, cantidad, motivo, fecha) VALUES (20, 12, 'INGRESO', 150, 'Compra #4', '2026-05-10 09:00:00') ON CONFLICT (id) DO NOTHING;
 INSERT INTO movimiento_inventario (id, inventario_id, tipo_movimiento, cantidad, motivo, fecha) VALUES (21, 13, 'INGRESO', 40, 'Compra #4', '2026-05-10 09:00:00') ON CONFLICT (id) DO NOTHING;
 INSERT INTO movimiento_inventario (id, inventario_id, tipo_movimiento, cantidad, motivo, fecha) VALUES (22, 15, 'INGRESO', 15, 'Compra #4', '2026-05-10 09:00:00') ON CONFLICT (id) DO NOTHING;
+INSERT INTO movimiento_inventario (id, inventario_id, tipo_movimiento, cantidad, motivo, fecha) VALUES (23, 12, 'INGRESO', 10, 'Compra #6', '2026-06-19 17:18:10.551') ON CONFLICT (id) DO NOTHING;
+INSERT INTO movimiento_inventario (id, inventario_id, tipo_movimiento, cantidad, motivo, fecha) VALUES (24, 14, 'EGRESO', 2, 'Pedido #7 aceptado', '2026-06-19 17:52:21.564') ON CONFLICT (id) DO NOTHING;
 
 -- compra
 INSERT INTO compra (id, proveedor_id, fecha, total, estado) VALUES (1, 1, '2026-01-10 09:00:00', 12500.00, 'RECIBIDA') ON CONFLICT (id) DO NOTHING;
 INSERT INTO compra (id, proveedor_id, fecha, total, estado) VALUES (2, 2, '2026-03-15 14:00:00', 8400.00, 'RECIBIDA') ON CONFLICT (id) DO NOTHING;
 INSERT INTO compra (id, proveedor_id, fecha, total, estado) VALUES (3, 1, '2026-03-25 10:00:00', 7300.00, 'RECIBIDA') ON CONFLICT (id) DO NOTHING;
 INSERT INTO compra (id, proveedor_id, fecha, total, estado) VALUES (4, 2, '2026-05-10 11:00:00', 9275.00, 'RECIBIDA') ON CONFLICT (id) DO NOTHING;
-INSERT INTO compra (id, proveedor_id, fecha, total, estado) VALUES (6, 1, '2026-06-19 17:09:17.648', 0.00, 'PENDIENTE') ON CONFLICT (id) DO NOTHING;
+INSERT INTO compra (id, proveedor_id, fecha, total, estado) VALUES (6, 1, '2026-06-19 17:09:17.648', 250.00, 'RECIBIDA') ON CONFLICT (id) DO NOTHING;
 
 -- detalle_compra
 INSERT INTO detalle_compra (id, compra_id, producto_id, cantidad, precio_unitario) VALUES (1, 1, 1, 10, 250.00) ON CONFLICT (id) DO NOTHING;
@@ -116,6 +118,7 @@ INSERT INTO detalle_compra (id, compra_id, producto_id, cantidad, precio_unitari
 INSERT INTO detalle_compra (id, compra_id, producto_id, cantidad, precio_unitario) VALUES (20, 4, 12, 150, 15.00) ON CONFLICT (id) DO NOTHING;
 INSERT INTO detalle_compra (id, compra_id, producto_id, cantidad, precio_unitario) VALUES (21, 4, 13, 40, 48.00) ON CONFLICT (id) DO NOTHING;
 INSERT INTO detalle_compra (id, compra_id, producto_id, cantidad, precio_unitario) VALUES (22, 4, 15, 15, 225.00) ON CONFLICT (id) DO NOTHING;
+INSERT INTO detalle_compra (id, compra_id, producto_id, cantidad, precio_unitario) VALUES (23, 6, 12, 10, 25.00) ON CONFLICT (id) DO NOTHING;
 
 -- pedido
 INSERT INTO pedido (id, cliente_id, fecha, estado) VALUES (1, 6, '2026-02-10 08:00:00', 'DESPACHADO') ON CONFLICT (id) DO NOTHING;
@@ -124,6 +127,7 @@ INSERT INTO pedido (id, cliente_id, fecha, estado) VALUES (3, 7, '2026-04-20 09:
 INSERT INTO pedido (id, cliente_id, fecha, estado) VALUES (4, 9, '2026-05-05 14:00:00', 'DESPACHADO') ON CONFLICT (id) DO NOTHING;
 INSERT INTO pedido (id, cliente_id, fecha, estado) VALUES (5, 10, '2026-06-01 11:00:00', 'DESPACHADO') ON CONFLICT (id) DO NOTHING;
 INSERT INTO pedido (id, cliente_id, fecha, estado) VALUES (6, 6, '2026-06-18 14:00:00', 'SOLICITADO') ON CONFLICT (id) DO NOTHING;
+INSERT INTO pedido (id, cliente_id, fecha, estado) VALUES (7, 11, '2026-06-19 17:32:33.776', 'DESPACHADO') ON CONFLICT (id) DO NOTHING;
 
 -- detalle_pedido
 INSERT INTO detalle_pedido (id, pedido_id, producto_id, cantidad) VALUES (1, 1, 1, 2) ON CONFLICT (id) DO NOTHING;
@@ -141,6 +145,7 @@ INSERT INTO detalle_pedido (id, pedido_id, producto_id, cantidad) VALUES (12, 5,
 INSERT INTO detalle_pedido (id, pedido_id, producto_id, cantidad) VALUES (13, 6, 9, 2) ON CONFLICT (id) DO NOTHING;
 INSERT INTO detalle_pedido (id, pedido_id, producto_id, cantidad) VALUES (14, 6, 12, 5) ON CONFLICT (id) DO NOTHING;
 INSERT INTO detalle_pedido (id, pedido_id, producto_id, cantidad) VALUES (15, 6, 13, 3) ON CONFLICT (id) DO NOTHING;
+INSERT INTO detalle_pedido (id, pedido_id, producto_id, cantidad) VALUES (16, 7, 14, 2) ON CONFLICT (id) DO NOTHING;
 
 -- venta
 INSERT INTO venta (id, cliente_id, fecha, monto_total, tipo_venta, metodo_pago, estado) VALUES (1, 7, '2026-01-15 10:00:00', 700.00, 'CONTADO', 'EFECTIVO', 'COMPLETADA') ON CONFLICT (id) DO NOTHING;
@@ -158,6 +163,7 @@ INSERT INTO venta (id, cliente_id, fecha, monto_total, tipo_venta, metodo_pago, 
 INSERT INTO venta (id, cliente_id, fecha, monto_total, tipo_venta, metodo_pago, estado) VALUES (13, 9, '2026-05-20 11:30:00', 490.00, 'CONTADO', 'EFECTIVO', 'COMPLETADA') ON CONFLICT (id) DO NOTHING;
 INSERT INTO venta (id, cliente_id, fecha, monto_total, tipo_venta, metodo_pago, estado) VALUES (14, 8, '2026-06-02 09:00:00', 1420.00, 'CONTADO', 'TARJETA', 'COMPLETADA') ON CONFLICT (id) DO NOTHING;
 INSERT INTO venta (id, cliente_id, fecha, monto_total, tipo_venta, metodo_pago, estado) VALUES (15, 10, '2026-06-10 15:00:00', 1020.00, 'CREDITO', 'EFECTIVO', 'PENDIENTE') ON CONFLICT (id) DO NOTHING;
+INSERT INTO venta (id, cliente_id, fecha, monto_total, tipo_venta, metodo_pago, estado) VALUES (16, 11, '2026-06-19 18:15:53.24', 400.00, 'CONTADO', 'QR', 'COMPLETADA') ON CONFLICT (id) DO NOTHING;
 
 -- detalle_venta
 INSERT INTO detalle_venta (id, venta_id, producto_id, cantidad, precio_unitario) VALUES (1, 1, 1, 2, 350.00) ON CONFLICT (id) DO NOTHING;
@@ -199,6 +205,7 @@ INSERT INTO detalle_venta (id, venta_id, producto_id, cantidad, precio_unitario)
 INSERT INTO detalle_venta (id, venta_id, producto_id, cantidad, precio_unitario) VALUES (37, 14, 2, 4, 180.00) ON CONFLICT (id) DO NOTHING;
 INSERT INTO detalle_venta (id, venta_id, producto_id, cantidad, precio_unitario) VALUES (38, 15, 9, 3, 220.00) ON CONFLICT (id) DO NOTHING;
 INSERT INTO detalle_venta (id, venta_id, producto_id, cantidad, precio_unitario) VALUES (39, 15, 8, 2, 180.00) ON CONFLICT (id) DO NOTHING;
+INSERT INTO detalle_venta (id, venta_id, producto_id, cantidad, precio_unitario) VALUES (40, 16, 14, 2, 200.00) ON CONFLICT (id) DO NOTHING;
 
 -- credito
 INSERT INTO credito (id, venta_id, numero_cuotas, tasa_interes, saldo_pendiente, estado) VALUES (1, 8, 3, 3.50, 172.50, 'VIGENTE') ON CONFLICT (id) DO NOTHING;

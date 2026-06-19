@@ -15,6 +15,7 @@ public class ProductoN implements Serializable {
     private String fotoUrl;
     private boolean activo;
     private String fechaReg;
+    private int stockActual;
 
     public ProductoN() {}
 
@@ -32,6 +33,9 @@ public class ProductoN implements Serializable {
         this.activo = activo;
         this.fechaReg = fechaReg;
     }
+
+    public int getStockActual() { return stockActual; }
+    public void setStockActual(int stockActual) { this.stockActual = stockActual; }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

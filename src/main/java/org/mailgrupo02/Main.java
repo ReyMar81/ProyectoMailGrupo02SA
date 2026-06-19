@@ -219,6 +219,18 @@ public class Main {
                         } catch (Exception e) {
                             System.err.println("[Reconciliacion] Error al confirmar " + txId + ": " + e.getMessage());
                         }
+                    } else if (txId.startsWith("PED-CONTADO-")) {
+                        try {
+                            int pedidoId = Integer.parseInt(txId.substring("PED-CONTADO-".length()));
+                            VentaService vs = new VentaService(new VentaM(), new CreditoM());
+                            String resultado = vs.procesarDesdePedido(pedidoId, "CONTADO", "QR", 0, 0);
+                            System.out.println("[Reconciliacion] Pedido #" + pedidoId + " -> " + resultado);
+                            String html = PVentas.generarHtml("CREARVENTA_CONTADO",
+                                "Pago de Pedido #" + pedidoId + " confirmado. " + resultado);
+                            smtp.enviarCorreo(email, "Confirmacion de Pago - " + txId, html);
+                        } catch (Exception e) {
+                            System.err.println("[Reconciliacion] Error al confirmar " + txId + ": " + e.getMessage());
+                        }
                     }
                     completadas.add(txId);
                 } else {

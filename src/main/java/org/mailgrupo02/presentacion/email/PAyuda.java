@@ -133,9 +133,25 @@ public class PAyuda {
             {"GETPEDIDO[id]",
              "Detalle de un pedido con sus productos.",
              "GETPEDIDO[1]"},
-            {"CREARPEDIDO[clienteId]",
-             "Crea un pedido en estado <strong>SOLICITADO</strong> para el cliente indicado.",
-             "CREARPEDIDO[6]"},
+            {"CREARPEDIDO[clienteId,productoId:cantidad,...]",
+             "Crea un pedido en estado <strong>SOLICITADO</strong> con productos.<br>"
+             + "El primer par&aacute;metro es el clienteId, luego productoId:cantidad separados por coma.",
+             "CREARPEDIDO[6,1:2,4:3,7:4]"},
+            {"PAGARPEDIDO[pedidoId,CONTADO,EFECTIVO|QR]",
+             "Cliente: paga su pedido al contado.<br>"
+             + "<strong>EFECTIVO</strong> &rarr; crea la venta inmediatamente.<br>"
+             + "<strong>QR</strong> &rarr; genera QR para pagar y crea la venta al confirmar.",
+             "PAGARPEDIDO[1,CONTADO,QR]"},
+            {"PAGARPEDIDO[pedidoId,CREDITO,cuotas,interes,EFECTIVO|QR]",
+             "Cliente: paga su pedido a cr&eacute;dito.<br>"
+             + "<em>cuotas</em> &rarr; n&uacute;mero de cuotas<br>"
+             + "<em>interes</em> &rarr; porcentaje (ej. 5.0)<br>"
+             + "Con QR paga la primera cuota y se genera la venta.",
+             "PAGARPEDIDO[1,CREDITO,12,5.0,QR]"},
+            {"ACEPTARPEDIDO[id]",
+             "Acepta un pedido en estado <strong>SOLICITADO</strong>.<br>"
+             + "Valida stock, descuenta del inventario y cambia a <strong>EN_PROCESO</strong>.",
+             "ACEPTARPEDIDO[1]"},
             {"DESPACHARPEDIDO[id]",
              "Marca el pedido como <strong>DESPACHADO</strong> (entregado al cliente).",
              "DESPACHARPEDIDO[1]"},
@@ -179,15 +195,6 @@ public class PAyuda {
             {"GETVENTA[id]",
              "Detalle de una venta con sus productos.",
              "GETVENTA[1]"},
-            {"CREARVENTA_CONTADO[clienteId,fecha,monto,metodoPago]",
-             "<em>fecha</em> &rarr; <code>YYYY-MM-DDThh:mm:ss</code><br>"
-             + "<em>metodoPago</em> &rarr; <code>EFECTIVO</code> / <code>QR</code> / <code>TARJETA</code>",
-             "CREARVENTA_CONTADO[6,2026-06-19T10:00:00,5000.00,EFECTIVO]"},
-            {"CREARVENTA_CREDITO[clienteId,fecha,monto,cuotas,interes,metodoPago]",
-             "<em>cuotas</em> &rarr; n&uacute;mero entero<br>"
-             + "<em>interes</em> &rarr; porcentaje (ej. <code>5.0</code>)<br>"
-             + "<em>metodoPago</em> &rarr; <code>EFECTIVO</code> / <code>QR</code> / <code>TARJETA</code>",
-             "CREARVENTA_CREDITO[6,2026-06-19T10:00:00,8500.00,12,5.0,QR]"},
             {"DELETEVENTA[id]",
              "Elimina una venta del sistema.",
              "DELETEVENTA[1]"},

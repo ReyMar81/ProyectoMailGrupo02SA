@@ -17,6 +17,7 @@ public class PedidoControlador {
             case "LISTARPEDIDOS": case "LISTARPEDIDO":
             case "CREARPEDIDO":
             case "DESPACHARPEDIDO":
+            case "ACEPTARPEDIDO":
             case "ANULARPEDIDO":
             case "GETPEDIDO":
             case "PEDIDO":
@@ -24,6 +25,7 @@ public class PedidoControlador {
             case "MIPEDIDO":
             case "CANCELARPEDIDO":
             case "PROCESARPEDIDO":
+            case "PAGARPEDIDO":
                 return true;
             default:
                 return false;
@@ -51,14 +53,34 @@ public class PedidoControlador {
                     break;
                 }
 
-                case "CREARPEDIDO":
-                    if (params.isEmpty()) return PPedidos.generarHtml(cmd, "Error: se requiere el ID del cliente.");
-                    rawResult = service.crearPedido(Integer.parseInt(params.get(0).trim()));
+                case "CREARPEDIDO": {
+                    if (params.isEmpty()) return PPedidos.generarHtml(cmd,
+                        "Error: especifica clienteId y productos.\n" +
+                        "Ejemplo: CREARPEDIDO[clienteId,productoId:cantidad,productoId:cantidad,...]");
+                    int cId = Integer.parseInt(params.get(0).trim());
+                    if (params.size() < 2) return PPedidos.generarHtml(cmd,
+                        "Error: debe especificar al menos un producto.\n" +
+                        "Ejemplo: CREARPEDIDO[" + cId + ",1:2,3:1]");
+                    int[][] its = new int[params.size() - 1][2];
+                    for (int i = 1; i < params.size(); i++) {
+                        String[] partes = params.get(i).trim().split(":");
+                        if (partes.length != 2) return PPedidos.generarHtml(cmd,
+                            "Error: formato incorrecto en '" + params.get(i) + "'. Use productoId:cantidad");
+                        its[i - 1][0] = Integer.parseInt(partes[0].trim());
+                        its[i - 1][1] = Integer.parseInt(partes[1].trim());
+                    }
+                    rawResult = service.crearConProductos(cId, its);
                     break;
+                }
 
                 case "DESPACHARPEDIDO":
                     if (params.isEmpty()) return PPedidos.generarHtml(cmd, "Error: se requiere el ID del pedido.");
                     rawResult = service.despacharPedido(Integer.parseInt(params.get(0).trim()));
+                    break;
+
+                case "ACEPTARPEDIDO":
+                    if (params.isEmpty()) return PPedidos.generarHtml(cmd, "Error: se requiere el ID del pedido.");
+                    rawResult = service.aceptarPedido(Integer.parseInt(params.get(0).trim()));
                     break;
 
                 case "ANULARPEDIDO":
@@ -130,6 +152,48 @@ public class PedidoControlador {
                     int clienteId = usuarioService.buscarIdPorEmail(emailRemitente);
                     if (clienteId < 0) return PPedidos.generarHtml(cmd, msgNoRegistrado(emailRemitente));
                     rawResult = service.cancelarPorCliente(Integer.parseInt(params.get(0).trim()), clienteId);
+                    break;
+                }
+
+                // ── Pago de pedidos (cliente) ────────────────────────────────
+
+                case "PAGARPEDIDO": {
+                    if (params.size() < 2) return PPedidos.generarHtml(cmd,
+                        "Error: parámetros insuficientes.\n" +
+                        "Contado Efectivo: PAGARPEDIDO[pedidoId,CONTADO,EFECTIVO]\n" +
+                        "Contado QR:       PAGARPEDIDO[pedidoId,CONTADO,QR]\n" +
+                        "Crédito Efectivo: PAGARPEDIDO[pedidoId,CREDITO,cuotas,interes,EFECTIVO]\n" +
+                        "Crédito QR:       PAGARPEDIDO[pedidoId,CREDITO,cuotas,interes,QR]");
+                    int pedidoId = Integer.parseInt(params.get(0).trim());
+                    int clienteId = usuarioService.buscarIdPorEmail(emailRemitente);
+                    if (clienteId < 0) return PPedidos.generarHtml(cmd, msgNoRegistrado(emailRemitente));
+                    String tipo = params.get(1).trim().toUpperCase();
+                    if ("CONTADO".equals(tipo)) {
+                        if (params.size() < 3) return PPedidos.generarHtml(cmd, "Error: especifica EFECTIVO o QR.");
+                        String metodo = params.get(2).trim().toUpperCase();
+                        if ("EFECTIVO".equals(metodo)) {
+                            rawResult = service.pagarContadoEfectivo(pedidoId, clienteId);
+                        } else if ("QR".equals(metodo)) {
+                            rawResult = service.pagarContadoQR(pedidoId, clienteId);
+                        } else {
+                            rawResult = "Error: método de pago inválido. Use EFECTIVO o QR.";
+                        }
+                    } else if ("CREDITO".equals(tipo)) {
+                        if (params.size() < 5) return PPedidos.generarHtml(cmd,
+                            "Error: crédito requiere 5 parámetros: PAGARPEDIDO[pedidoId,CREDITO,cuotas,interes,EFECTIVO|QR]");
+                        int cuotas = Integer.parseInt(params.get(2).trim());
+                        double tasa = Double.parseDouble(params.get(3).trim());
+                        String metodo = params.get(4).trim().toUpperCase();
+                        if ("EFECTIVO".equals(metodo)) {
+                            rawResult = service.pagarCreditoEfectivo(pedidoId, clienteId, cuotas, tasa);
+                        } else if ("QR".equals(metodo)) {
+                            rawResult = service.pagarCreditoQR(pedidoId, clienteId, cuotas, tasa);
+                        } else {
+                            rawResult = "Error: método de pago inválido. Use EFECTIVO o QR.";
+                        }
+                    } else {
+                        rawResult = "Error: tipo de pago inválido. Use CONTADO o CREDITO.";
+                    }
                     break;
                 }
 

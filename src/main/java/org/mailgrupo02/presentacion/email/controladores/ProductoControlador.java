@@ -124,6 +124,7 @@ public class ProductoControlador {
         fila(sb, "Modelo",              nvl(p.getModelo()));
         fila(sb, "Descripci&oacute;n",  nvl(p.getDescripcion()));
         fila(sb, "Precio Base",         String.format("%.2f Bs.", p.getPrecioVentaBase()));
+        fila(sb, "Stock Actual",        String.valueOf(p.getStockActual()));
         fila(sb, "Estado",              p.isActivo() ? "&#10004; Activo" : "Inactivo");
         fila(sb, "Fecha Reg.",          nvl(p.getFechaReg()));
         sb.append("</table></div>");

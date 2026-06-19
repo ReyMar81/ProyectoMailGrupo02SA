@@ -32,7 +32,9 @@ public class PPedidos {
             case "MIPEDIDO":          return "Detalle de Mi Pedido";
             case "CANCELARPEDIDO":    return "Cancelar Pedido";
             case "PROCESARPEDIDO":    return "Procesar Pedido";
+            case "PAGARPEDIDO":       return "Pagar Pedido";
             case "DESPACHARPEDIDO":   return "Despachar Pedido";
+            case "ACEPTARPEDIDO":     return "Aceptar Pedido";
             case "ANULARPEDIDO":      return "Anular Pedido";
             case "GETPEDIDO":         return "Detalle de Pedido";
             default:                  return "Gestión de Pedidos";
