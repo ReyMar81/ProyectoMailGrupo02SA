@@ -128,20 +128,33 @@ public class UsuarioService {
     }
 
     private String mapear(List<UsuarioM> usuarios) throws SQLException {
+        String[] headers = {"ID", "Nombre", "Email", "Rol", "Activo", "Tel\u00e9fono"};
+        int[] widths = {5, 20, 30, 15, 10, 15};
+        for (UsuarioM u : usuarios) {
+            widths[0] = Math.max(widths[0], String.valueOf(u.getId()).length());
+            widths[1] = Math.max(widths[1], u.getNombre() != null ? u.getNombre().length() : 0);
+            widths[2] = Math.max(widths[2], u.getEmail() != null ? u.getEmail().length() : 0);
+            widths[3] = Math.max(widths[3], u.getRol() != null ? u.getRol().length() : 0);
+            String act = u.isActivo() ? "S\u00ed" : "No";
+            widths[4] = Math.max(widths[4], act.length());
+            String tel = u.getTelefono() != null ? u.getTelefono() : "N/A";
+            widths[5] = Math.max(widths[5], tel.length());
+        }
+        String fmt = "%-" + widths[0] + "s %-" + widths[1] + "s %-" + widths[2] + "s %-" + widths[3] + "s %-" + widths[4] + "s %-" + widths[5] + "s%n";
         StringBuilder sb = new StringBuilder();
-        String format = "%-5s %-20s %-30s %-15s %-10s %-15s%n";
-        sb.append(String.format(format, "ID", "Nombre", "Email", "Rol", "Activo", "Teléfono"));
-        sb.append(
-                "------------------------------------------------------------------------------------------------------\r\n");
-
-        for (UsuarioM usuario : usuarios) {
-            sb.append(String.format(format,
-                    usuario.getId(),
-                    usuario.getNombre(),
-                    usuario.getEmail(),
-                    usuario.getRol(),
-                    usuario.isActivo() ? "Sí" : "No",
-                    usuario.getTelefono() != null ? usuario.getTelefono() : "N/A"));
+        sb.append(String.format(fmt, (Object[]) headers));
+        int total = 0;
+        for (int w : widths) total += w + 1;
+        for (int i = 0; i < total; i++) sb.append('-');
+        sb.append("\r\n");
+        for (UsuarioM u : usuarios) {
+            sb.append(String.format(fmt,
+                u.getId(),
+                u.getNombre() != null ? u.getNombre() : "",
+                u.getEmail() != null ? u.getEmail() : "",
+                u.getRol() != null ? u.getRol() : "",
+                u.isActivo() ? "S\u00ed" : "No",
+                u.getTelefono() != null ? u.getTelefono() : "N/A"));
         }
         return sb.toString();
     }
