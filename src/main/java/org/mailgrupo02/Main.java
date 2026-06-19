@@ -112,11 +112,11 @@ public class Main {
                         System.out.println("  Sin correos nuevos");
                     }
                     pop.desconectar();
-                    Thread.sleep(10000);
+                    Thread.sleep(5000);
                 } catch (Exception e) {
                     System.err.println("Error: " + e.getMessage());
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(5000);
                     } catch (InterruptedException ie) {
                         break;
                     }
@@ -129,7 +129,8 @@ public class Main {
                 String from = extraer(correo, "From: ", 6);
                 String subj = extraer(correo, "Subject: ", 9);
                 System.out.println("  De: " + from + " | " + subj);
-                String resp = cmd.evaluarYEjecutar(subj);
+                String emailRemitente = extraerEmail(from);
+                String resp = cmd.evaluarYEjecutar(subj, emailRemitente);
                 smtp.enviarCorreo(extraerEmail(from), "Re: " + subj, resp);
                 System.out.println("  Enviado (" + resp.length() + " chars)");
             } catch (Exception e) {

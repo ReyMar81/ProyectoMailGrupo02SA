@@ -179,4 +179,57 @@ public class UsuarioM {
             if (conn != null) try { conn.close(); } catch (SQLException e) {}
         }
     }
+
+    /** Busca un usuario por email. Retorna null si no existe. */
+    public static UsuarioM buscarPorEmail(String email) throws SQLException {
+        String sql = "SELECT * FROM usuario WHERE email = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = Conexion.conectar();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, email);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                UsuarioM u = new UsuarioM();
+                u.setId(rs.getInt("id"));
+                u.setNombre(rs.getString("nombre"));
+                u.setEmail(rs.getString("email"));
+                u.setTelefono(rs.getString("telefono"));
+                u.setDireccion(rs.getString("direccion"));
+                u.setFotoUrl(rs.getString("foto_url"));
+                u.setPassword(rs.getString("password"));
+                u.setRol(rs.getString("rol"));
+                u.setActivo(rs.getBoolean("activo"));
+                u.setFechaReg(rs.getTimestamp("fecha_reg"));
+                return u;
+            }
+            return null;
+        } finally {
+            if (rs != null) try { rs.close(); } catch (SQLException e) {}
+            if (pstmt != null) try { pstmt.close(); } catch (SQLException e) {}
+            if (conn != null) try { conn.close(); } catch (SQLException e) {}
+        }
+    }
+
+    /** Actualiza solo el campo rol en la tabla usuario. */
+    public static String cambiarRol(int userId, String nuevoRol) throws SQLException {
+        String sql = "UPDATE usuario SET rol = ? WHERE id = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = Conexion.conectar();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nuevoRol);
+            pstmt.setInt(2, userId);
+            int rows = pstmt.executeUpdate();
+            return rows > 0 ? "Rol actualizado" : "Usuario no encontrado";
+        } catch (SQLException e) {
+            throw new SQLException("Error al cambiar rol: " + e.getMessage());
+        } finally {
+            if (pstmt != null) try { pstmt.close(); } catch (SQLException e) {}
+            if (conn != null) try { conn.close(); } catch (SQLException e) {}
+        }
+    }
 }

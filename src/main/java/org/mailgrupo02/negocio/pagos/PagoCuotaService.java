@@ -134,6 +134,21 @@ public class PagoCuotaService {
         return mapearCreditos(lista);
     }
 
+    /** Cliente: lista sus propios créditos. */
+    public String listarCreditosPorCliente(int clienteId) throws SQLException {
+        List<CreditoM> lista = CreditoM.obtenerPorCliente(clienteId);
+        if (lista.isEmpty()) return "No tienes créditos activos.";
+        return mapearCreditos(lista);
+    }
+
+    /** Cliente: ve las cuotas de un crédito verificando que le pertenezca. */
+    public String verCuotasCliente(int creditoId, int clienteId) throws SQLException {
+        CreditoM c = CreditoM.leer(creditoId);
+        VentaM v = VentaM.leer(c.getVentaId());
+        if (v.getClienteId() != clienteId) return "Error: el crédito no pertenece a tu cuenta.";
+        return verCuotas(creditoId);
+    }
+
     private String mapear(List<PagoCuotaM> lista) {
         StringBuilder sb = new StringBuilder();
         String format = "%-5s %-10s %-12s %-12s %-15s %-15s %-10s %-10s%n";

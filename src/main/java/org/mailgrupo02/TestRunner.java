@@ -270,7 +270,7 @@ public class TestRunner {
         String cmd_nombre = asunto.split("\\[")[0];
         System.out.printf("  [%02d] %-35s ", totalPruebas, cmd_nombre);
 
-        String html = cmd.evaluarYEjecutar(asunto);
+        String html = cmd.evaluarYEjecutar(asunto, "PROPIETARIO");
         try {
             smtp.enviarCorreo(emailDestino, "Re: " + asunto, html);
             enviados++;

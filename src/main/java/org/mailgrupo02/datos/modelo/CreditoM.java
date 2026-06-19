@@ -164,6 +164,35 @@ public class CreditoM {
         }
     }
 
+    public static List<CreditoM> obtenerPorCliente(int clienteId) throws SQLException {
+        List<CreditoM> lista = new ArrayList<>();
+        String sql = "SELECT c.* FROM credito c JOIN venta v ON c.venta_id = v.id WHERE v.cliente_id = ? ORDER BY c.id DESC";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = Conexion.conectar();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, clienteId);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                CreditoM c = new CreditoM();
+                c.setId(rs.getInt("id"));
+                c.setVentaId(rs.getInt("venta_id"));
+                c.setNumeroCuotas(rs.getInt("numero_cuotas"));
+                c.setTasaInteres(rs.getDouble("tasa_interes"));
+                c.setSaldoPendiente(rs.getDouble("saldo_pendiente"));
+                c.setEstado(rs.getString("estado"));
+                lista.add(c);
+            }
+        } finally {
+            if (rs != null) try { rs.close(); } catch (SQLException e) {}
+            if (pstmt != null) try { pstmt.close(); } catch (SQLException e) {}
+            if (conn != null) try { conn.close(); } catch (SQLException e) {}
+        }
+        return lista;
+    }
+
     public static String eliminar(int id) throws SQLException {
         String sql = "DELETE FROM credito WHERE id = ?";
         Connection conn = null;

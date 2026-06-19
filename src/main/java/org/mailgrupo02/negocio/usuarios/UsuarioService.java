@@ -66,6 +66,71 @@ public class UsuarioService {
         return UsuarioM.eliminar(id);
     }
 
+    /** Retorna el rol del remitente o "DESCONOCIDO" si no está registrado. */
+    public String buscarRolPorEmail(String email) throws SQLException {
+        UsuarioM u = UsuarioM.buscarPorEmail(email);
+        if (u == null || !u.isActivo()) return "DESCONOCIDO";
+        return u.getRol();
+    }
+
+    /** Retorna el userId del remitente o -1 si no existe. */
+    public int buscarIdPorEmail(String email) throws SQLException {
+        UsuarioM u = UsuarioM.buscarPorEmail(email);
+        return u != null ? u.getId() : -1;
+    }
+
+    /**
+     * Cambia el rol de un usuario migrando sus datos a la subtabla correcta.
+     * Elimina la fila antigua en cliente/proveedor/propietario e inserta en la nueva.
+     */
+    public String cambiarRol(int userId, String nuevoRol) throws SQLException {
+        nuevoRol = nuevoRol.toUpperCase().trim();
+        if (!nuevoRol.equals("PROPIETARIO") && !nuevoRol.equals("PROVEEDOR") && !nuevoRol.equals("CLIENTE")) {
+            return "Error: rol inválido. Use PROPIETARIO, PROVEEDOR o CLIENTE.";
+        }
+        UsuarioM u = UsuarioM.leer(userId);
+        String rolActual = u.getRol();
+        if (rolActual.equals(nuevoRol)) return "El usuario ya tiene el rol " + nuevoRol + ".";
+
+        // Eliminar de la subtabla actual
+        switch (rolActual) {
+            case "CLIENTE":     new ClienteM().eliminar(userId); break;
+            case "PROVEEDOR":   new ProveedorM().eliminar(userId); break;
+            case "PROPIETARIO": new PropietarioM().eliminar(userId); break;
+        }
+
+        // Actualizar rol principal
+        UsuarioM.cambiarRol(userId, nuevoRol);
+
+        // Insertar en nueva subtabla
+        switch (nuevoRol) {
+            case "CLIENTE": {
+                ClienteM c = new ClienteM();
+                c.setId(userId);
+                c.setNitCi("N/A");
+                c.setTipoCliente("REGULAR");
+                c.crear();
+                break;
+            }
+            case "PROVEEDOR": {
+                ProveedorM p = new ProveedorM();
+                p.setId(userId);
+                p.setRazonSocial(u.getNombre());
+                p.setContactoPrincipal(u.getNombre());
+                p.crear();
+                break;
+            }
+            case "PROPIETARIO": {
+                PropietarioM p = new PropietarioM();
+                p.setId(userId);
+                p.setNivelAcceso("TOTAL");
+                p.crear();
+                break;
+            }
+        }
+        return "Rol del usuario ID " + userId + " cambiado de " + rolActual + " a " + nuevoRol + " exitosamente (ID: " + userId + ")";
+    }
+
     private String mapear(List<UsuarioM> usuarios) throws SQLException {
         StringBuilder sb = new StringBuilder();
         String format = "%-5s %-20s %-30s %-15s %-10s %-15s%n";

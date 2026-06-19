@@ -20,6 +20,7 @@ public class UsuarioControlador {
             case "UPDATECLIENTE":
             case "DELETEUSUARIO":
             case "GETUSUARIO":
+            case "CAMBIARROL":
                 return true;
             default:
                 return false;
@@ -45,11 +46,11 @@ public class UsuarioControlador {
                 }
 
                 case "CREATEUSUARIO": {
-                    if (params.size() < 6)
-                        return PUsuarios.generarHtml(cmd, "Error: se requieren 6 parámetros [nombre,email,password,rol,telefono,direccion].");
+                    if (params.size() < 5)
+                        return PUsuarios.generarHtml(cmd, "Error: se requieren 5 parámetros [nombre,email,password,telefono,direccion].");
                     String msg = service.agregarUsuario(
                         params.get(0), params.get(1), params.get(2),
-                        params.get(3), params.get(4), params.get(5));
+                        "CLIENTE", params.get(3), params.get(4));
                     int newId = extraerId(msg);
                     if (newId > 0) {
                         UsuarioN u = service.leerUsuario(newId);
@@ -100,6 +101,14 @@ public class UsuarioControlador {
                         return PUsuarios.generarHtml(cmd, fichaUsuario(u, "delete"));
                     }
                     return PUsuarios.generarHtml(cmd, rawResult);
+                }
+
+                case "CAMBIARROL": {
+                    if (params.size() < 2)
+                        return PUsuarios.generarHtml(cmd, "Error: se requieren 2 parámetros [userId,nuevoRol].");
+                    int id = Integer.parseInt(params.get(0).trim());
+                    String nuevoRol = params.get(1).trim().toUpperCase();
+                    return PUsuarios.generarHtml(cmd, service.cambiarRol(id, nuevoRol));
                 }
 
                 default:
