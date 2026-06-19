@@ -7,15 +7,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.Base64;
 
 public class ClienteSMTP {
 
     private static final String SERVIDOR = ConfigEmailServer.HOST;
     private static final int PUERTO = Integer.parseInt(ConfigEmailServer.PORT_SMTP);
     private static final String EMISOR = ConfigEmailServer.MAIL;
-    private static final String USUARIO = ConfigEmailServer.USER;
-    private static final String CONTRASENA = ConfigEmailServer.PASSWORD;
 
     private static void enviarComando(DataOutputStream salida, BufferedReader entrada, String comando)
             throws IOException {
@@ -51,11 +48,6 @@ public class ClienteSMTP {
             System.out.println("S : " + entrada.readLine());
 
             enviarComando(salida, entrada, "EHLO " + SERVIDOR + "\r\n");
-            enviarComando(salida, entrada, "AUTH LOGIN\r\n");
-            enviarComando(salida, entrada,
-                    Base64.getEncoder().encodeToString(USUARIO.getBytes()) + "\r\n");
-            enviarComando(salida, entrada,
-                    Base64.getEncoder().encodeToString(CONTRASENA.getBytes()) + "\r\n");
             enviarComando(salida, entrada, "MAIL FROM:<" + EMISOR + ">\r\n");
             enviarComando(salida, entrada, "RCPT TO:<" + usuarioReceptor + ">\r\n");
             enviarComando(salida, entrada, "DATA\r\n");
