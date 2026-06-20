@@ -1,4 +1,4 @@
--- RAO MOTOS Backup | 2026-06-19T18:25:43.339543200
+-- RAO MOTOS Backup | 2026-06-20T01:01:19.913280100
 
 -- proveedor
 INSERT INTO proveedor (id, razon_social, contacto_principal, telefono, activo) VALUES (1, 'Distribuidora Japonesa Ltda.', 'Tanaka Suzuki', '44123401', true) ON CONFLICT (id) DO NOTHING;
@@ -14,6 +14,9 @@ INSERT INTO usuario (id, nombre, email, telefono, direccion, foto_url, password,
 INSERT INTO usuario (id, nombre, email, telefono, direccion, foto_url, password, rol, activo, fecha_reg) VALUES (9, 'Ana Rodriguez Lopez', 'ana.rodriguez@email.com', '72123404', 'Av. Oquendo 400, Cochabamba', NULL, 'cli1234', 'CLIENTE', true, '2026-06-19 15:20:06.200509') ON CONFLICT (id) DO NOTHING;
 INSERT INTO usuario (id, nombre, email, telefono, direccion, foto_url, password, rol, activo, fecha_reg) VALUES (10, 'Luis Vargas Rojas', 'luis.vargas@email.com', '72123405', 'Calle Espana 500, Cochabamba', NULL, 'cli1234', 'CLIENTE', true, '2026-06-19 15:20:06.200509') ON CONFLICT (id) DO NOTHING;
 INSERT INTO usuario (id, nombre, email, telefono, direccion, foto_url, password, rol, activo, fecha_reg) VALUES (11, 'Reymar prueba', 'reymarloaizalabarden@gmail.com', '75521217', 'uagrm', NULL, 'reymar123456', 'CLIENTE', true, '2026-06-19 16:11:07.27511') ON CONFLICT (id) DO NOTHING;
+INSERT INTO usuario (id, nombre, email, telefono, direccion, foto_url, password, rol, activo, fecha_reg) VALUES (12, 'usuario de prueba', 'probando@gmail.com', '76579456', 'Av.Bush 30', NULL, 'clave12663', 'CLIENTE', true, '2026-06-19 22:00:28.952183') ON CONFLICT (id) DO NOTHING;
+INSERT INTO usuario (id, nombre, email, telefono, direccion, foto_url, password, rol, activo, fecha_reg) VALUES (13, 'Juan Carlos Alberto', 'juancontreras@uagrm.edu.bo', '70012345', 'Radial', NULL, '123456789', 'CLIENTE', true, '2026-06-19 22:41:54.610542') ON CONFLICT (id) DO NOTHING;
+INSERT INTO usuario (id, nombre, email, telefono, direccion, foto_url, password, rol, activo, fecha_reg) VALUES (14, 'Juan Rao prueba segundo', 'juan@mail.com', '70123456', 'Av.Banzer 1090', NULL, 'clave1267863', 'CLIENTE', true, '2026-06-19 22:46:18.855633') ON CONFLICT (id) DO NOTHING;
 
 -- cliente
 INSERT INTO cliente (id, nit_ci, tipo_cliente) VALUES (6, '12345601', 'REGULAR') ON CONFLICT (id) DO NOTHING;
@@ -22,6 +25,9 @@ INSERT INTO cliente (id, nit_ci, tipo_cliente) VALUES (8, '12345603', 'MAYORISTA
 INSERT INTO cliente (id, nit_ci, tipo_cliente) VALUES (9, '12345604', 'REGULAR') ON CONFLICT (id) DO NOTHING;
 INSERT INTO cliente (id, nit_ci, tipo_cliente) VALUES (10, '12345605', 'FRECUENTE') ON CONFLICT (id) DO NOTHING;
 INSERT INTO cliente (id, nit_ci, tipo_cliente) VALUES (11, '12345678', 'FRECUENTE') ON CONFLICT (id) DO NOTHING;
+INSERT INTO cliente (id, nit_ci, tipo_cliente) VALUES (12, 'N/A', 'REGULAR') ON CONFLICT (id) DO NOTHING;
+INSERT INTO cliente (id, nit_ci, tipo_cliente) VALUES (13, 'N/A', 'REGULAR') ON CONFLICT (id) DO NOTHING;
+INSERT INTO cliente (id, nit_ci, tipo_cliente) VALUES (14, 'N/A', 'REGULAR') ON CONFLICT (id) DO NOTHING;
 
 -- propietario
 INSERT INTO propietario (id, nivel_acceso) VALUES (1, 'TOTAL') ON CONFLICT (id) DO NOTHING;

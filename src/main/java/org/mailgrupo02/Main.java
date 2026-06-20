@@ -146,7 +146,7 @@ public class Main {
                     if (total > 0) {
                         System.out.println(total + " correos");
                         for (int i = 1; i <= total; i++) {
-                            procesarCorreo(pop.obtenerCorreoYEliminar(i));-
+                            procesarCorreo(pop.obtenerCorreoYEliminar(i));
                         }
                     } else {
                         System.out.println("  Sin correos nuevos");
@@ -249,7 +249,7 @@ public class Main {
         private void procesarCorreo(String correo) {
             try {
                 String from = extraer(correo, "From: ", 6);
-                String subj = extraer(correo, "Subject: ", 9);
+                String subj = ClientePOP.decodificarRFC2047(extraer(correo, "Subject: ", 9));
                 System.out.println("  De: " + from + " | " + subj);
                 String emailRemitente = extraerEmail(from);
 

@@ -7,6 +7,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +17,16 @@ public class ClienteSMTP {
     private static final String SERVIDOR = ConfigEmailServer.HOST;
     private static final int PUERTO = Integer.parseInt(ConfigEmailServer.PORT_SMTP);
     private static final String EMISOR = ConfigEmailServer.MAIL;
+
+    static String codificarRFC2047(String texto) {
+        for (char c : texto.toCharArray()) {
+            if (c > 127) {
+                String b64 = Base64.getEncoder().encodeToString(texto.getBytes(StandardCharsets.UTF_8));
+                return "=?UTF-8?B?" + b64 + "?=";
+            }
+        }
+        return texto;
+    }
 
     // ── Auto-detecta imagen base64 embebida y elige el tipo de envío ─────────
     public void enviarCorreo(String usuarioReceptor, String subject, String mensaje) throws IOException {
@@ -33,7 +45,7 @@ public class ClienteSMTP {
     // ── Envío simple: text/html (comportamiento original) ────────────────────
     private void enviarSimple(String to, String subject, String html) throws IOException {
         try (Socket socket = new Socket(SERVIDOR, PUERTO);
-             BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
              DataOutputStream salida = new DataOutputStream(socket.getOutputStream())) {
 
             System.out.println("S : " + entrada.readLine());
@@ -41,7 +53,7 @@ public class ClienteSMTP {
             enviarComando(salida, entrada, "MAIL FROM:<" + EMISOR + ">\r\n");
             enviarComando(salida, entrada, "RCPT TO:<" + to + ">\r\n");
             enviarComando(salida, entrada, "DATA\r\n");
-            String headers = "Subject: " + subject + "\r\n"
+            String headers = "Subject: " + codificarRFC2047(subject) + "\r\n"
                     + "MIME-Version: 1.0\r\n"
                     + "Content-Type: text/html; charset=UTF-8\r\n"
                     + "\r\n";
@@ -64,7 +76,7 @@ public class ClienteSMTP {
         String cuerpo = html.replace("\r\n", "\n").replace("\n", "\r\n");
 
         String body =
-            "Subject: " + subject + "\r\n" +
+            "Subject: " + codificarRFC2047(subject) + "\r\n" +
             "MIME-Version: 1.0\r\n" +
             "Content-Type: multipart/related; boundary=\"" + boundary + "\"\r\n" +
             "\r\n" +
@@ -83,7 +95,7 @@ public class ClienteSMTP {
             "--" + boundary + "--\r\n";
 
         try (Socket socket = new Socket(SERVIDOR, PUERTO);
-             BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
              DataOutputStream salida = new DataOutputStream(socket.getOutputStream())) {
 
             System.out.println("S : " + entrada.readLine());
@@ -98,7 +110,7 @@ public class ClienteSMTP {
 
     private static void enviarComando(DataOutputStream salida, BufferedReader entrada, String comando)
             throws IOException {
-        salida.writeBytes(comando);
+        salida.write(comando.getBytes(StandardCharsets.UTF_8));
         String respuesta = leerRespuesta(entrada);
         int codigoRespuesta = Integer.parseInt(respuesta.substring(0, 3));
         if (codigoRespuesta >= 400) {
