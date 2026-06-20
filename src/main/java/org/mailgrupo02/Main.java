@@ -49,7 +49,7 @@ public class Main {
                         iniciarServicioEmail();
                         break;
                     case 4:
-                        TestRunner.main(new String[]{});
+                        TestRunner.main(new String[] {});
                         break;
                     case 5:
                         System.out.println("Saliendo...");
@@ -146,7 +146,7 @@ public class Main {
                     if (total > 0) {
                         System.out.println(total + " correos");
                         for (int i = 1; i <= total; i++) {
-                            procesarCorreo(pop.obtenerCorreoYEliminar(i));
+                            procesarCorreo(pop.obtenerCorreoYEliminar(i));-
                         }
                     } else {
                         System.out.println("  Sin correos nuevos");
@@ -166,7 +166,8 @@ public class Main {
 
         private void reconciliarPagosQR() {
             Map<String, String> transacciones = PagoFacilService.cargarTransacciones();
-            if (transacciones.isEmpty()) return;
+            if (transacciones.isEmpty())
+                return;
 
             System.out.println("[Reconciliacion] " + transacciones.size() + " transaccion(es) QR pendiente(s)...");
             List<String> completadas = new ArrayList<>();
@@ -174,7 +175,8 @@ public class Main {
             for (Map.Entry<String, String> entry : transacciones.entrySet()) {
                 String txId = entry.getKey();
                 String[] parts = entry.getValue().split(";");
-                if (parts.length < 4) continue;
+                if (parts.length < 4)
+                    continue;
 
                 String email = parts[0];
                 double monto;
@@ -185,7 +187,7 @@ public class Main {
                     pfTxId = (long) Double.parseDouble(parts[3]);
                 } catch (NumberFormatException e) {
                     System.err.println("[Reconciliacion] Error al parsear transaccion " + txId
-                        + " | valor='" + parts[3] + "': " + e.getMessage());
+                            + " | valor='" + parts[3] + "': " + e.getMessage());
                     continue;
                 }
 
@@ -202,8 +204,9 @@ public class Main {
                             String resultado = new PagoCuotaService().confirmarPago(creditoId, numeroCuota);
                             System.out.println("[Reconciliacion] " + resultado);
                             String html = PPagos.generarHtml("PAGARCUOTA",
-                                "Pago de Cuota " + numeroCuota + " del Credito #" + creditoId
-                                + " confirmado exitosamente. Monto: " + String.format("%.2f", monto) + " Bs.");
+                                    "Pago de Cuota " + numeroCuota + " del Credito #" + creditoId
+                                            + " confirmado exitosamente. Monto: " + String.format("%.2f", monto)
+                                            + " Bs.");
                             smtp.enviarCorreo(email, "Confirmacion de Pago - " + txId, html);
                         } catch (Exception e) {
                             System.err.println("[Reconciliacion] Error al confirmar " + txId + ": " + e.getMessage());
@@ -213,8 +216,8 @@ public class Main {
                             int ventaId = Integer.parseInt(txId.substring(4));
                             System.out.println("[Reconciliacion] Venta #" + ventaId + " pago QR confirmado.");
                             String html = PVentas.generarHtml("CREARVENTA_CONTADO",
-                                "Pago de Venta #" + ventaId + " confirmado exitosamente. Monto: "
-                                + String.format("%.2f", monto) + " Bs.");
+                                    "Pago de Venta #" + ventaId + " confirmado exitosamente. Monto: "
+                                            + String.format("%.2f", monto) + " Bs.");
                             smtp.enviarCorreo(email, "Confirmacion de Pago - " + txId, html);
                         } catch (Exception e) {
                             System.err.println("[Reconciliacion] Error al confirmar " + txId + ": " + e.getMessage());
@@ -226,7 +229,7 @@ public class Main {
                             String resultado = vs.procesarDesdePedido(pedidoId, "CONTADO", "QR", 0, 0);
                             System.out.println("[Reconciliacion] Pedido #" + pedidoId + " -> " + resultado);
                             String html = PVentas.generarHtml("CREARVENTA_CONTADO",
-                                "Pago de Pedido #" + pedidoId + " confirmado. " + resultado);
+                                    "Pago de Pedido #" + pedidoId + " confirmado. " + resultado);
                             smtp.enviarCorreo(email, "Confirmacion de Pago - " + txId, html);
                         } catch (Exception e) {
                             System.err.println("[Reconciliacion] Error al confirmar " + txId + ": " + e.getMessage());
@@ -268,8 +271,9 @@ public class Main {
         }
 
         private boolean esCorreoSistema(String email, String subject) {
-            if (email == null) return true;
-            String emailLower   = email.toLowerCase();
+            if (email == null)
+                return true;
+            String emailLower = email.toLowerCase();
             String subjectLower = subject != null ? subject.toLowerCase() : "";
 
             // Direcciones de rebote y sistema que nunca deben recibir respuesta
@@ -299,13 +303,15 @@ public class Main {
         }
 
         private boolean esComandoEscritura(String subject) {
-            if (subject == null) return false;
+            if (subject == null)
+                return false;
             String s = subject.toUpperCase();
             return s.startsWith("CREATE") || s.startsWith("UPDATE") || s.startsWith("DELETE")
-                || s.startsWith("CREAR")  || s.startsWith("ANULAR") || s.startsWith("DESPACHAR")
-                || s.startsWith("REGISTRAR") || s.startsWith("PROCESAR") || s.startsWith("CAMBIAR")
-                || s.startsWith("PEDIDO[") || s.startsWith("CANCELAR") || s.startsWith("PAGAR")
-                || s.startsWith("CREATEPROVEEDOR") || s.startsWith("UPDATEPROVEEDOR") || s.startsWith("DELETEPROVEEDOR");
+                    || s.startsWith("CREAR") || s.startsWith("ANULAR") || s.startsWith("DESPACHAR")
+                    || s.startsWith("REGISTRAR") || s.startsWith("PROCESAR") || s.startsWith("CAMBIAR")
+                    || s.startsWith("PEDIDO[") || s.startsWith("CANCELAR") || s.startsWith("PAGAR")
+                    || s.startsWith("CREATEPROVEEDOR") || s.startsWith("UPDATEPROVEEDOR")
+                    || s.startsWith("DELETEPROVEEDOR");
         }
 
         private String extraerEmail(String from) {
@@ -327,7 +333,8 @@ public class Main {
                     int cont = fin + 1;
                     while (cont < txt.length() && (txt.charAt(cont) == ' ' || txt.charAt(cont) == '\t')) {
                         int nl = txt.indexOf("\n", cont);
-                        if (nl == -1) break;
+                        if (nl == -1)
+                            break;
                         val += txt.substring(cont, nl).trim();
                         cont = nl + 1;
                     }

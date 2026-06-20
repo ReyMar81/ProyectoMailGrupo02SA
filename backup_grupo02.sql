@@ -1,4 +1,4 @@
--- RAO MOTOS Backup | 2026-06-19T18:21:31.802676700
+-- RAO MOTOS Backup | 2026-06-19T18:25:43.339543200
 
 -- proveedor
 INSERT INTO proveedor (id, razon_social, contacto_principal, telefono, activo) VALUES (1, 'Distribuidora Japonesa Ltda.', 'Tanaka Suzuki', '44123401', true) ON CONFLICT (id) DO NOTHING;
